@@ -1,0 +1,86 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Semantic Search Demo for Geo.ca</title>
+    <style>
+        body {
+            font-family: Arial, sans-serif;
+        }
+        #results {
+            margin-top: 20px;
+        }
+    </style>
+</head>
+<body>
+    <h1>Semantic Search Demo</h1>
+    <p>(coming soon on Geo.ca, in December 2024?)</p>
+    <form id="searchForm">
+        <label for="query">Search:</label>
+        <input type="text" id="query" name="query" required>
+        <button type="submit">Search</button>
+    </form>
+    <div id="results"></div>
+
+    <script>
+        document.getElementById('searchForm').addEventListener('submit', function(event) {
+            event.preventDefault(); // Prevent form from submitting the traditional way
+
+            const query = document.getElementById('query').value;
+            const resultsDiv = document.getElementById('results');
+
+            // Clear previous results
+            resultsDiv.innerHTML = '';
+
+            // Display a loading message
+            resultsDiv.innerHTML = 'Loading...';
+
+            // Send the search query to the server
+            // fetch(`/search?query=${encodeURIComponent(query)}`)
+            fetch(`https://search-recherche.geocore-dev.api.geo.ca/search-opensearch?method=SemanticSearch&searchString=${encodeURIComponent(query)}`)
+                .then(response => response.json())
+                .then(data => {
+                    // Clear the loading message
+                    resultsDiv.innerHTML = '';
+
+                    if (data.length === 0) {
+                        resultsDiv.innerHTML = 'No results found.';
+                    } else {
+                        const ul = document.createElement('ul');
+                        data.body.response.items.forEach(result => {
+                            const li = document.createElement('li');
+                            // li.textContent = result.features[0].properties.title;
+
+				const h2 = document.createElement('h2');
+				//h2.textContent = result.features[0].properties.title;
+
+				const anchor = document.createElement('a');
+				anchor.setAttribute('href', `https://maps.canada.ca/geonetwork/metadata/eng/${result.features[0].properties.id}`)
+				anchor.textContent = result.features[0].properties.title;
+
+				const description = document.createElement('p');
+				description.textContent = result.features[0].properties.description;
+
+			    const img = document.createElement('img');
+			    //img.setAttribute('src', result.features[0].properties.graphicOverview[0].overviewFileName);
+			    img.setAttribute('width', '100px');
+
+				h2.appendChild(anchor);
+			    li.appendChild(h2);
+			    li.appendChild(description);
+			    li.appendChild(img);
+			    console.log(result);
+                            ul.appendChild(li);
+                        });
+                        resultsDiv.appendChild(ul);
+                    }
+                })
+                .catch(error => {
+                    resultsDiv.innerHTML = 'An error occurred. Please try again later.';
+                    console.error('Error:', error);
+                });
+        });
+    </script>
+</body>
+</html>
