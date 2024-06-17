@@ -30,7 +30,7 @@
 <main>
     <h1>Semantic Search API Demo</h1>
     <p>(for future GEO.ca)</p>
-    <p>Please note that this current version works only within NRCan/GoC network.</p>
+    <p>Please note that this current version queries our development server and works only within NRCan/GoC network.</p>
 
     <form id="searchForm">
         <input type="text" bind:value={query} placeholder="Enter search query" />
