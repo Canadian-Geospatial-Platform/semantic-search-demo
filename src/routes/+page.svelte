@@ -36,12 +36,12 @@
                     {#if item.features[0].properties.graphicOverview[0] && item.features[0].properties.graphicOverview[0].overviewFileName}
                         <img src={item.features[0].properties.graphicOverview[0].overviewFileName} alt="Preview thumbnail of {item.features[0].properties.title}" class="graphicOverview" />
                     {/if}
-                    <a href={"https://app.geo.ca/result/en/" + item.features[0].properties.title.replace(/\W+/g, '-').toLowerCase() + "?id=" + item.features[0].properties.id + "&lang=en"} target="_blank">
+                    <a href={"https://app-dev.geo.ca/result/en/" + item.features[0].properties.title.replace(/\W+/g, '-').toLowerCase() + "?id=" + item.features[0].properties.id + "&lang=en"} target="_blank">
                         <h2>{item.features[0].properties.title}</h2>
                     </a>
                     <p>{item.features[0].properties.description}</p>
                     <!-- <p><strong>Extent:</strong> {item.extent}</p> -->
-                    <button on:click={() => window.open("https://app.geo.ca/result/en/" + item.features[0].properties.title.replace(/\W+/g, '-').toLowerCase() + "?id=" + item.features[0].properties.id + "&lang=en")}>
+                    <button on:click={() => window.open("https://app-dev.geo.ca/result/en/" + item.features[0].properties.title.replace(/\W+/g, '-').toLowerCase() + "?id=" + item.features[0].properties.id + "&lang=en")}>
                         View record &rarr;
                     </button>
                 </li>
