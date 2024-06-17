@@ -1,4 +1,5 @@
 <script lang="ts">
+    import Footer from '$lib/components/Footer.svelte';
     import { onMount } from 'svelte';
 
     let query = '';
@@ -10,22 +11,13 @@
         result = data.body.response;  // Adjust this based on the actual structure of your returned JSON
         console.log(result.items);
     }
-
-    function openGitHub() {
-        window.open("https://github.com/Canadian-Geospatial-Platform/semantic-search-with-amazon-opensearch");
-    }
 </script>
 
 <svelte:head>
     <title>Semantic Search API Demo for GEO.ca</title>
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.2/css/all.min.css" integrity="sha512-SnH5WK+bZxgPHs44uWIX+LLJAJ9/2PkPKZ5QiAj6Ta86w+fsb2TkcmfRyVX3pBnMFcV7oQPJkl9QevSCWr3W6A==" crossorigin="anonymous" referrerpolicy="no-referrer" />
+    <script defer src="https://api.productsurveys.io/script/8divLEFQtBobiGKhmRJ5f8"></script>
 </svelte:head>
-
-<header>
-    <button on:click={openGitHub}>
-        <i class="fa-brands fa-github" style="font-size: larger;"></i> GitHub
-    </button>
-</header>
 
 <main>
     <h1>Semantic Search API Demo</h1>
@@ -61,19 +53,13 @@
         </p>
     {/if}
 </main>
-<footer>
-    <p>GeoDiscovery, Canada Centre for Mapping and Earth Observation, Government of Canada, 2024</p>
-</footer>
+
+<Footer />
 
 <style>
     main {
         font-family: Arial, sans-serif;
         padding: 1rem;
-    }
-    footer {
-        border-top: 1px solid black;
-        font-family: Arial, sans-serif;
-        padding-left: 1rem;
     }
     h2 {
         color: rebeccapurple;
