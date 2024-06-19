@@ -3,13 +3,19 @@
     import { onMount } from 'svelte';
 
     let query = '';
-    let result = {} as any;
+    let semanticSearchResult = {} as any;
+    let keywordSearchResult = {} as any;
 
     async function handleSearch() {
-        const response = await fetch(`https://search-recherche.geocore-dev.api.geo.ca/search-opensearch?method=SemanticSearch&searchString=${query}`);
-        const data = await response.json();
-        result = data.body.response;  // Adjust this based on the actual structure of your returned JSON
-        console.log(result.items);
+        const semanticSearchResponse = await fetch(`https://search-recherche.geocore-dev.api.geo.ca/search-opensearch?method=SemanticSearch&searchString=${query}`);
+        const semanticSearchData = await semanticSearchResponse.json();
+        semanticSearchResult = semanticSearchData.body.response;  // Adjust this based on the actual structure of your returned JSON
+        console.log(semanticSearchResult.items);
+
+        const keywordSearchResponse = await fetch(`https://geocore-dev.api.geo.ca/geo?keyword=${query}&keyword_only=true&lang=en&min=1&max=10&sort=popularity-desc`);
+        const keywordSearchData = await keywordSearchResponse.json();
+        keywordSearchResult = keywordSearchData;
+        console.log(keywordSearchData);
     }
 </script>
 
@@ -28,9 +34,12 @@
         <button type="submit" on:click={handleSearch}>Search</button>
     </form>
 
-    {#if result.total_hits > 0}
+    <div class="flex-container">
+    <div>
+    <h2>Semantic search results</h2>
+    {#if semanticSearchResult.total_hits > 0}
         <ul>
-            {#each result.items as item}
+            {#each semanticSearchResult.items as item}
                 <li>
                     {#if item.features[0].properties.graphicOverview[0] && item.features[0].properties.graphicOverview[0].overviewFileName}
                         <img src={item.features[0].properties.graphicOverview[0].overviewFileName} alt="Preview thumbnail of {item.features[0].properties.title}" class="graphicOverview" />
@@ -39,7 +48,7 @@
                         <h2>{item.features[0].properties.title}</h2>
                     </a>
                     <p>{item.features[0].properties.description}</p>
-                    <!-- <p><strong>Extent:</strong> {item.extent}</p> -->
+                    <!-- <p><strong>Extent:</strong> {item.features[0].properties.extent}</p> -->
                     <button on:click={() => window.open("https://app-dev.geo.ca/result/en/" + item.features[0].properties.title.replace(/\W+/g, '-').toLowerCase() + "?id=" + item.features[0].properties.id + "&lang=en")}>
                         View record &rarr;
                     </button>
@@ -51,6 +60,35 @@
             Awaiting...
         </p>
     {/if}
+    </div>
+
+    <div>
+    <h2>Keyword search results</h2>
+    {#if keywordSearchResult.Count > 0}
+        <ul>
+            {#each keywordSearchResult.Items as item}
+                <li>
+                    {#if item.graphicOverview[0] && item.graphicOverview[0].overviewFileName}
+                        <img src={item.graphicOverview[0].overviewFileName} alt="Preview thumbnail of {item.title}" class="graphicOverview" />
+                    {/if}
+                    <a href={"https://app-dev.geo.ca/result/en/" + item.id + "?id=" + item.id + "&lang=en"} target="_blank">
+                        <h2>{item.title}</h2>
+                    </a>
+                    <p>{item.description}</p>
+                    <!-- <p><strong>Extent:</strong> {item.extent}</p> -->
+                    <button on:click={() => window.open("https://app-dev.geo.ca/result/en/" + item.id + "?id=" + item.id + "&lang=en")}>
+                        View record &rarr;
+                    </button>
+                </li>
+            {/each}
+        </ul>
+    {:else}
+        <p>
+            Awaiting...
+        </p>
+    {/if}
+    </div>
+    </div>
 </main>
 
 <Footer />
@@ -95,5 +133,21 @@
         width: 300px;
         max-height: 300px;
         float: right;
+    }
+    .flex-container {
+        margin-top: 1ex;
+        display: flex;
+        /*background-color: rebeccapurple;*/
+        width: 100%;
+        gap: 1em;
+    }
+    .flex-container > div {
+        background-color: white;
+        display: flex;
+        flex-direction: column;
+        flex-basis: 100%;
+        flex: 1;
+        border: solid 1px rebeccapurple;
+        padding: 0 1ex;
     }
 </style>
