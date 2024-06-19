@@ -6,17 +6,25 @@
     let semanticSearchResult = {} as any;
     let keywordSearchResult = {} as any;
 
-    async function handleSearch() {
+    async function handleSemanticSearch() {
         const semanticSearchResponse = await fetch(`https://search-recherche.geocore-dev.api.geo.ca/search-opensearch?method=SemanticSearch&searchString=${query}`);
         const semanticSearchData = await semanticSearchResponse.json();
         semanticSearchResult = semanticSearchData.body.response;  // Adjust this based on the actual structure of your returned JSON
         console.log(semanticSearchResult.items);
+    }
 
+    async function handleKeywordSearch() {
         const keywordSearchResponse = await fetch(`https://geocore-dev.api.geo.ca/geo?keyword=${query}&keyword_only=true&lang=en&min=1&max=10&sort=popularity-desc`);
         const keywordSearchData = await keywordSearchResponse.json();
         keywordSearchResult = keywordSearchData;
         console.log(keywordSearchData);
     }
+
+    async function handleSearch() {
+        handleKeywordSearch();
+        handleSemanticSearch();
+    }
+
 </script>
 
 <svelte:head>
