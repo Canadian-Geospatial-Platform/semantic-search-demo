@@ -60,7 +60,7 @@
                         <p><b>Organization:</b> {item.features[0].properties.organisation}</p>
                         <p><b>Published:</b> {item.features[0].properties.published}</p>
                     </div>
-                    <p>{item.features[0].properties.description}</p>
+                    <p class="description">{item.features[0].properties.description}</p>
                     <!-- <p><strong>Extent:</strong> {item.features[0].properties.extent}</p> -->
                     <button on:click={() => window.open("https://app-dev.geo.ca/result/en/" + item.features[0].properties.title.replace(/\W+/g, '-').toLowerCase() + "?id=" + item.features[0].properties.id + "&lang=en")}>
                         View record &rarr;
@@ -78,6 +78,7 @@
     <div>
     <h2>Keyword search results</h2>
     {#if keywordSearchResult.Count > 0}
+        <!-- <p>1 – {keywordSearchResult.Count} of {keywordSearchResult.Items[0].total} records</p> -->
         <ul>
             {#each keywordSearchResult.Items as item (item.row_num)}
                 <li>
@@ -100,7 +101,7 @@
                         <p><b>Organization:</b> {item.organisation}</p>
                         <p><b>Published:</b> {item.published}</p>
                     </div>
-                    <p>{item.description}</p>
+                    <p class="description">{item.description}</p>
                     <!-- <p><strong>Extent:</strong> {item.extent}</p> -->
                     <button on:click={() => window.open("https://app-dev.geo.ca/result/en/" + item.title.replace(/\W+/g, '-').toLowerCase() + "?id=" + item.id + "&lang=en")}>
                         View record &rarr;
@@ -178,6 +179,19 @@
     }
     .small {
         font-size: small;
-        padding: 0;
+    }
+    .small > p {
+        margin: 3px;
+        overflow: hidden;
+        text-overflow: ellipsis;
+        height: 1lh;
+    }
+    .description {
+        /* Credit: https://stackoverflow.com/questions/33058004/applying-an-ellipsis-to-multiline-text
+                   https://stackoverflow.com/questions/3922739/limit-text-length-to-n-lines-using-css */
+        overflow: hidden;
+        display: -webkit-box;
+        -webkit-box-orient: vertical;
+        -webkit-line-clamp: 3;
     }
 </style>
