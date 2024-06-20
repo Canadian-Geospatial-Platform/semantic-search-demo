@@ -5,6 +5,7 @@
     let query = '';
     let semanticSearchResult = {} as any;
     let keywordSearchResult = {} as any;
+    let graphicOverview = [];
 
     async function handleSemanticSearch() {
         const semanticSearchResponse = await fetch(`https://search-recherche.geocore-dev.api.geo.ca/search-opensearch?method=SemanticSearch&searchString=${query}`);
@@ -24,7 +25,6 @@
         handleKeywordSearch();
         handleSemanticSearch();
     }
-
 </script>
 
 <svelte:head>
@@ -47,14 +47,19 @@
     <h2>Semantic search results</h2>
     {#if semanticSearchResult.total_hits > 0}
         <ul>
-            {#each semanticSearchResult.items as item}
+            {#each semanticSearchResult.items as item (item.features[0].properties.row_num)}
                 <li>
                     {#if item.features[0].properties.graphicOverview[0] && item.features[0].properties.graphicOverview[0].overviewFileName}
                         <img src={item.features[0].properties.graphicOverview[0].overviewFileName} alt="Preview thumbnail of {item.features[0].properties.title}" class="graphicOverview" />
                     {/if}
                     <a href={"https://app-dev.geo.ca/result/en/" + item.features[0].properties.title.replace(/\W+/g, '-').toLowerCase() + "?id=" + item.features[0].properties.id + "&lang=en"} target="_blank">
-                        <h2>{item.features[0].properties.title}</h2>
+                        <h3>{item.features[0].properties.row_num}. {item.features[0].properties.title}</h3>
                     </a>
+                    <div class="small">
+                        <p><b>Keywords:</b> {item.features[0].properties.keywords}</p>
+                        <p><b>Organization:</b> {item.features[0].properties.organisation}</p>
+                        <p><b>Published:</b> {item.features[0].properties.published}</p>
+                    </div>
                     <p>{item.features[0].properties.description}</p>
                     <!-- <p><strong>Extent:</strong> {item.features[0].properties.extent}</p> -->
                     <button on:click={() => window.open("https://app-dev.geo.ca/result/en/" + item.features[0].properties.title.replace(/\W+/g, '-').toLowerCase() + "?id=" + item.features[0].properties.id + "&lang=en")}>
@@ -74,17 +79,30 @@
     <h2>Keyword search results</h2>
     {#if keywordSearchResult.Count > 0}
         <ul>
-            {#each keywordSearchResult.Items as item}
+            {#each keywordSearchResult.Items as item (item.row_num)}
                 <li>
-                    {#if item.graphicOverview[0] && item.graphicOverview[0].overviewFileName}
-                        <img src={item.graphicOverview[0].overviewFileName} alt="Preview thumbnail of {item.title}" class="graphicOverview" />
+                    {#if item.graphicOverview}
+                        <!-- These two commands (?) don't belong here, but I don't yet know how else to make it work -->
+                        {graphicOverview = JSON.parse(item.graphicOverview.replaceAll('""', '"'))}
+                        {graphicOverview.length}
+                        <!-- -->
+                        {#if graphicOverview.length > 0}
+                            {#if graphicOverview[0].overviewFileName !== "null"}
+                                <img src={graphicOverview[0].overviewFileName} alt="Preview thumbnail of {item.title}" class="graphicOverview" />
+                            {/if}
+                        {/if}
                     {/if}
-                    <a href={"https://app-dev.geo.ca/result/en/" + item.id + "?id=" + item.id + "&lang=en"} target="_blank">
-                        <h2>{item.title}</h2>
+                    <a href={"https://app-dev.geo.ca/result/en/" + item.title.replace(/\W+/g, '-').toLowerCase() + "?id=" + item.id + "&lang=en"} target="_blank">
+                        <h3>{item.row_num}. {item.title}</h3>
                     </a>
+                    <div class="small">
+                        <p><b>Keywords:</b> {item.keywords}</p>
+                        <p><b>Organization:</b> {item.organisation}</p>
+                        <p><b>Published:</b> {item.published}</p>
+                    </div>
                     <p>{item.description}</p>
                     <!-- <p><strong>Extent:</strong> {item.extent}</p> -->
-                    <button on:click={() => window.open("https://app-dev.geo.ca/result/en/" + item.id + "?id=" + item.id + "&lang=en")}>
+                    <button on:click={() => window.open("https://app-dev.geo.ca/result/en/" + item.title.replace(/\W+/g, '-').toLowerCase() + "?id=" + item.id + "&lang=en")}>
                         View record &rarr;
                     </button>
                 </li>
@@ -157,5 +175,9 @@
         flex: 1;
         border: solid 1px rebeccapurple;
         padding: 0 1ex;
+    }
+    .small {
+        font-size: small;
+        padding: 0;
     }
 </style>
