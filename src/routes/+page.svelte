@@ -1,10 +1,16 @@
-<script lang="ts">
+<script>
     import Footer from '$lib/components/Footer.svelte';
     import { onMount } from 'svelte';
 
     let query = '';
-    let semanticSearchResult = {} as any;
-    let keywordSearchResult = {} as any;
+    /**
+	 * @type {{ items: any; total_hits: number; }}
+	 */
+    let semanticSearchResult;
+    /**
+	 * @type {{ Count: number; Items: any; }}
+	 */
+    let keywordSearchResult;
     let graphicOverview = [];
 
     async function handleSemanticSearch() {

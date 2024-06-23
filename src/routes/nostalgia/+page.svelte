@@ -1,7 +1,6 @@
-<script lang="ts">
-    import type { PageData } from './$types';
-    
-    export let data: PageData;
+<script>
+    /** @type {import('./$types').PageData} */
+    export let data;
 </script>
 
 {@html data.page}

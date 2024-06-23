@@ -1,4 +1,4 @@
-<script lang="ts">
+<script>
     function openGitHubSemanticSearchModelEvaluation() {
         window.open("https://github.com/Canadian-Geospatial-Platform/semantic-search-model-evaluation");
     }
