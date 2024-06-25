@@ -6,7 +6,6 @@
     let query = '';
     let semanticSearchResult = {} as any;
     let keywordSearchResult = {} as any;
-    let graphicOverview = [];
 
     async function handleSemanticSearch() {
         const response = await fetch(`https://search-recherche.geocore-dev.api.geo.ca/search-opensearch?method=SemanticSearch&searchString=${encodeURIComponent(query)}`);
@@ -79,16 +78,14 @@
 
     <div>
     <h2>Keyword search results</h2>
+    <p>Sorted by popularity (relevancy not available)</p>
     {#if keywordSearchResult.Count > 0}
         <!-- <p>1 – {keywordSearchResult.Count} of {keywordSearchResult.Items[0].total} records</p> -->
         <ul>
             {#each keywordSearchResult.Items as item (item.row_num)}
                 <li>
                     {#if item.graphicOverview}
-                        <!-- These two commands (?) don't belong here, but I don't yet know how else to make it work -->
-                        {graphicOverview = JSON.parse(item.graphicOverview.replaceAll('""', '"'))}
-                        {graphicOverview.length}
-                        <!-- -->
+                        {@const graphicOverview = JSON.parse(item.graphicOverview.replaceAll('""', '"'))}
                         {#if graphicOverview.length > 0}
                             {#if graphicOverview[0].overviewFileName !== "null"}
                                 <img src={graphicOverview[0].overviewFileName} alt="Preview thumbnail of {item.title}" class="graphicOverview" />
