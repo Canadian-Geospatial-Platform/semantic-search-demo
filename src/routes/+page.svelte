@@ -108,6 +108,10 @@
                 </li>
             {/each}
         </ul>
+    {:else if keywordSearchResult.Count === 0}
+        <p>No result</p>
+    {:else if keywordSearchResult.errorMessage }
+        <p>{ keywordSearchResult.errorMessage }</p>
     {:else}
         <p>
             Awaiting...
