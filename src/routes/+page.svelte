@@ -46,6 +46,7 @@
     <div class="flex-container">
     <div>
     <h2>Semantic search results</h2>
+    <p>Sorted by relevancy</p>
     {#if semanticSearchResult.total_hits > 0}
         <ul>
             {#each semanticSearchResult.items as item (item.features[0].properties.row_num)}
@@ -66,6 +67,9 @@
                     <button on:click={() => window.open("https://app-dev.geo.ca/result/en/" + item.features[0].properties.title.replace(/\W+/g, '-').toLowerCase() + "?id=" + item.features[0].properties.id + "&lang=en")}>
                         View record &rarr;
                     </button>
+                    <div class="small">
+                        <p><b>Relevancy:</b> {item.features[0].properties.relevancy}</p>
+                    </div>
                 </li>
             {/each}
         </ul>
@@ -105,6 +109,9 @@
                     <button on:click={() => window.open("https://app-dev.geo.ca/result/en/" + item.title.replace(/\W+/g, '-').toLowerCase() + "?id=" + item.id + "&lang=en")}>
                         View record &rarr;
                     </button>
+                    <div class="small">
+                        <p><b>Popularity:</b> {item.popularity}</p>
+                    </div>
                 </li>
             {/each}
         </ul>
@@ -130,6 +137,7 @@
     }
     h2 {
         color: rebeccapurple;
+        margin-bottom: 0;
     }
     input {
         padding: 0.5rem;
