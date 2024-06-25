@@ -9,15 +9,15 @@
     let graphicOverview = [];
 
     async function handleSemanticSearch() {
-        const semanticSearchResponse = await fetch(`https://search-recherche.geocore-dev.api.geo.ca/search-opensearch?method=SemanticSearch&searchString=${query}`);
-        const semanticSearchData = await semanticSearchResponse.json();
+        const response = await fetch(`https://search-recherche.geocore-dev.api.geo.ca/search-opensearch?method=SemanticSearch&searchString=${encodeURIComponent(query)}`);
+        const semanticSearchData = await response.json();
         semanticSearchResult = semanticSearchData.body.response;  // Adjust this based on the actual structure of your returned JSON
-        console.log(semanticSearchResult.items);
+        console.log(semanticSearchData);
     }
 
     async function handleKeywordSearch() {
-        const keywordSearchResponse = await fetch(`https://geocore-dev.api.geo.ca/geo?keyword=${query}&keyword_only=true&lang=en&min=1&max=10&sort=popularity-desc`);
-        const keywordSearchData = await keywordSearchResponse.json();
+        const response = await fetch(`https://geocore-dev.api.geo.ca/geo?keyword=${encodeURIComponent(query)}&keyword_only=true&lang=en&min=1&max=10&sort=popularity-desc`);
+        const keywordSearchData = await response.json();
         keywordSearchResult = keywordSearchData;
         console.log(keywordSearchData);
     }
