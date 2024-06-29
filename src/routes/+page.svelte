@@ -5,10 +5,10 @@
 
 	let query = $state('');
 	let keywordSearchURL = $derived(
-		`https://geocore-dev.api.geo.ca/geo?keyword=${encodeURIComponent(query)}&keyword_only=true&lang=en&min=1&max=10&sort=popularity-desc`
+		`https://geocore.api.geo.ca/geo?keyword=${encodeURIComponent(query)}&keyword_only=true&lang=en&min=1&max=10&sort=popularity-desc`
 	);
 	let semanticSearchURL = $derived(
-		`https://search-recherche.geocore-dev.api.geo.ca/search-opensearch?method=SemanticSearch&searchString=${encodeURIComponent(query)}`
+		`https://search-recherche.geocore.api.geo.ca/search-opensearch?method=SemanticSearch&searchString=${encodeURIComponent(query)}`
 	);
 	let keywordPromise = $state.frozen({} as Promise<any>);
 	let semanticPromise = $state.frozen({} as Promise<any>);
@@ -59,10 +59,7 @@
 <main>
 	<h1>Semantic Search API Demo for GEO.ca</h1>
 	<p>(Scheduled for released in December 2024)</p>
-	<p>
-		Please note that this current version queries our development servers and works only within
-		NRCan/GoC network.
-	</p>
+
 	<p>Front-end demo v{version} (2024-06-29), work-in-progress</p>
 
 	<form id="searchForm" onsubmit={handleSearch}>

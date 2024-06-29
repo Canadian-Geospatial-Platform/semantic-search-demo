@@ -5,7 +5,7 @@
 
 	let { record = {} as any }: Props = $props();
 
-	let appGeoCa = 'https://app-dev.geo.ca';
+	let appGeoCaBaseURL = 'https://app.geo.ca';
 </script>
 
 <li>
@@ -23,7 +23,7 @@
 		{/if}
 	{/if}
 	<a
-		href={appGeoCa +
+		href={appGeoCaBaseURL +
 			'/result/en/' +
 			record.title.replace(/\W+/g, '-').toLowerCase() +
 			'?id=' +
@@ -49,7 +49,7 @@
 	<button
 		onclick={() =>
 			window.open(
-				'https://app-dev.geo.ca/result/en/' +
+					appGeoCaBaseURL +
 					record.title.replace(/\W+/g, '-').toLowerCase() +
 					'?id=' +
 					record.id +
