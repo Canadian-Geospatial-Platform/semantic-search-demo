@@ -1,208 +1,195 @@
 <script lang="ts">
-    import { version } from '$app/environment';
-    import Footer from '$lib/components/Footer.svelte';
-    import { onMount } from 'svelte';
+	import { version } from '$app/environment';
+	import RecordCard from '$lib/components/RecordCard.svelte';
+	import Footer from '$lib/components/Footer.svelte';
 
-    let query = '';
-    let semanticSearchResult = {} as any;
-    let keywordSearchResult = {} as any;
+	let query = $state('');
+	let keywordSearchURL = $derived(
+		`https://geocore-dev.api.geo.ca/geo?keyword=${encodeURIComponent(query)}&keyword_only=true&lang=en&min=1&max=10&sort=popularity-desc`
+	);
+	let semanticSearchURL = $derived(
+		`https://search-recherche.geocore-dev.api.geo.ca/search-opensearch?method=SemanticSearch&searchString=${encodeURIComponent(query)}`
+	);
+	let keywordPromise = $state.frozen({} as Promise<any>);
+	let semanticPromise = $state.frozen({} as Promise<any>);
+	let searchInitiated = $state(false);
 
-    async function handleSemanticSearch() {
-        const response = await fetch(`https://search-recherche.geocore-dev.api.geo.ca/search-opensearch?method=SemanticSearch&searchString=${encodeURIComponent(query)}`);
-        const semanticSearchData = await response.json();
-        semanticSearchResult = semanticSearchData.body.response;  // Adjust this based on the actual structure of your returned JSON
-        console.log(semanticSearchData);
-    }
+	async function fetchKeywordSearchResults(query: string): Promise<any> {
+		const res = await fetch(keywordSearchURL);
+		console.log(res);
+		const data = await res.json();
+		return data;
+	}
 
-    async function handleKeywordSearch() {
-        const response = await fetch(`https://geocore-dev.api.geo.ca/geo?keyword=${encodeURIComponent(query)}&keyword_only=true&lang=en&min=1&max=10&sort=popularity-desc`);
-        const keywordSearchData = await response.json();
-        keywordSearchResult = keywordSearchData;
-        console.log(keywordSearchData);
-    }
+	async function fetchSemanticSearchResults(query: string): Promise<any> {
+		const res = await fetch(semanticSearchURL);
+		const data = await res.json();
+		return data;
+	}
 
-    async function handleSearch() {
-        handleKeywordSearch();
-        handleSemanticSearch();
-    }
+	async function handleSearch(event: Event) {
+		event.preventDefault();
+		if (!query.trim()) {
+			alert('Please enter a search query.'); // Basic validation feedback
+			return;
+		}
+		searchInitiated = true;
+		keywordPromise = fetchKeywordSearchResults(query);
+		semanticPromise = fetchSemanticSearchResults(query);
+	}
+
+	function clearSearchResults() {
+		keywordPromise = Promise.resolve({});
+		semanticPromise = Promise.resolve({});
+		searchInitiated = false;
+	}
 </script>
 
 <svelte:head>
-    <title>Semantic Search API Demo for GEO.ca</title>
-    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.2/css/all.min.css" integrity="sha512-SnH5WK+bZxgPHs44uWIX+LLJAJ9/2PkPKZ5QiAj6Ta86w+fsb2TkcmfRyVX3pBnMFcV7oQPJkl9QevSCWr3W6A==" crossorigin="anonymous" referrerpolicy="no-referrer" />
+	<title>Semantic Search API Demo for GEO.ca</title>
+	<link
+		rel="stylesheet"
+		href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.2/css/all.min.css"
+		integrity="sha512-SnH5WK+bZxgPHs44uWIX+LLJAJ9/2PkPKZ5QiAj6Ta86w+fsb2TkcmfRyVX3pBnMFcV7oQPJkl9QevSCWr3W6A=="
+		crossorigin="anonymous"
+		referrerpolicy="no-referrer"
+	/>
 </svelte:head>
 
 <main>
-    <h1>Semantic Search API Demo</h1>
-    <p>(for future GEO.ca)</p>
-    <p>Please note that this current version queries our development servers and works only within NRCan/GoC network.</p>
-    <p>Front-end demo v{version} (2024-06-25), work-in-progress</p>
+	<h1>Semantic Search API Demo for GEO.ca</h1>
+	<p>(Scheduled for released in December 2024)</p>
+	<p>
+		Please note that this current version queries our development servers and works only within
+		NRCan/GoC network.
+	</p>
+	<p>Front-end demo v{version} (2024-06-29), work-in-progress</p>
 
-    <form id="searchForm">
-        <input type="text" bind:value={query} placeholder="Enter search query" />
-        <button type="submit" on:click={handleSearch}>Search</button>
-    </form>
+	<form id="searchForm" onsubmit={handleSearch}>
+		<input
+			type="text"
+			bind:value={query}
+			oninput={clearSearchResults}
+			placeholder="Enter search query"
+		/>
+		<button type="submit">Search</button>
+	</form>
 
-    <div class="flex-container">
-    <div>
-    <h2>Semantic search results</h2>
-    <p>Sorted by relevancy</p>
-    {#if semanticSearchResult.total_hits > 0}
-        <ul>
-            {#each semanticSearchResult.items as item (item.features[0].properties.row_num)}
-                <li>
-                    {#if item.features[0].properties.graphicOverview[0] && item.features[0].properties.graphicOverview[0].overviewFileName}
-                        <img src={item.features[0].properties.graphicOverview[0].overviewFileName} alt="Preview thumbnail of {item.features[0].properties.title}" class="graphicOverview" />
-                    {/if}
-                    <a href={"https://app-dev.geo.ca/result/en/" + item.features[0].properties.title.replace(/\W+/g, '-').toLowerCase() + "?id=" + item.features[0].properties.id + "&lang=en"} target="_blank">
-                        <h3>{item.features[0].properties.row_num}. {item.features[0].properties.title}</h3>
-                    </a>
-                    <div class="small">
-                        <p><b>Keywords:</b> {item.features[0].properties.keywords}</p>
-                        <p><b>Organization:</b> {item.features[0].properties.organisation}</p>
-                        <p><b>Published:</b> {item.features[0].properties.published}</p>
-                    </div>
-                    <p class="description">{item.features[0].properties.description}</p>
-                    <!-- <p><strong>Extent:</strong> {item.features[0].properties.extent}</p> -->
-                    <button on:click={() => window.open("https://app-dev.geo.ca/result/en/" + item.features[0].properties.title.replace(/\W+/g, '-').toLowerCase() + "?id=" + item.features[0].properties.id + "&lang=en")}>
-                        View record &rarr;
-                    </button>
-                    <div class="small">
-                        <p><b>Relevancy:</b> {item.features[0].properties.relevancy}</p>
-                    </div>
-                </li>
-            {/each}
-        </ul>
-    {:else}
-        <p>
-            Awaiting...
-        </p>
-    {/if}
-    </div>
+	{#snippet showSearchURL(url)}
+		<p class="search-url">URL: <a href={url} target="_blank">{url}</a></p>
+	{/snippet}
 
-    <div>
-    <h2>Keyword search results</h2>
-    <p>Sorted by popularity (relevancy not available)</p>
-    {#if keywordSearchResult.Count > 0}
-        <!-- <p>1 – {keywordSearchResult.Count} of {keywordSearchResult.Items[0].total} records</p> -->
-        <ul>
-            {#each keywordSearchResult.Items as item (item.row_num)}
-                <li>
-                    {#if item.graphicOverview}
-                        {@const graphicOverview = JSON.parse(item.graphicOverview.replaceAll('""', '"'))}
-                        {#if graphicOverview.length > 0}
-                            {#if graphicOverview[0].overviewFileName !== "null"}
-                                <img src={graphicOverview[0].overviewFileName} alt="Preview thumbnail of {item.title}" class="graphicOverview" />
-                            {/if}
-                        {/if}
-                    {/if}
-                    <a href={"https://app-dev.geo.ca/result/en/" + item.title.replace(/\W+/g, '-').toLowerCase() + "?id=" + item.id + "&lang=en"} target="_blank">
-                        <h3>{item.row_num}. {item.title}</h3>
-                    </a>
-                    <div class="small">
-                        <p><b>Keywords:</b> {item.keywords}</p>
-                        <p><b>Organization:</b> {item.organisation}</p>
-                        <p><b>Published:</b> {item.published}</p>
-                    </div>
-                    <p class="description">{item.description}</p>
-                    <!-- <p><strong>Extent:</strong> {item.extent}</p> -->
-                    <button on:click={() => window.open("https://app-dev.geo.ca/result/en/" + item.title.replace(/\W+/g, '-').toLowerCase() + "?id=" + item.id + "&lang=en")}>
-                        View record &rarr;
-                    </button>
-                    <div class="small">
-                        <p><b>Popularity:</b> {item.popularity}</p>
-                    </div>
-                </li>
-            {/each}
-        </ul>
-    {:else if keywordSearchResult.Count === 0}
-        <p>No result</p>
-    {:else if keywordSearchResult.errorMessage }
-        <p>{ keywordSearchResult.errorMessage }</p>
-    {:else}
-        <p>
-            Awaiting...
-        </p>
-    {/if}
-    </div>
-    </div>
+	{#if searchInitiated}
+		<div class="flex-container">
+			<div>
+				<h2>Semantic search results</h2>
+				<!-- <p>Sorted by relevancy</p> -->
+				{@render showSearchURL(semanticSearchURL)}
+				{#await semanticPromise}
+					<p>Fetching results…</p>
+				{:then data}
+					{#if data.body && data.body.response && data.body.response.total_hits > 0}
+						<p>1 – {data.body.response.total_hits} of {data.body.response.total_hits}(?) records</p>
+						<ul>
+							{#each data.body.response.items as item (item.features[0].properties.row_num)}
+								{@const record = item.features[0].properties}
+								<RecordCard {record} />
+							{/each}
+						</ul>
+					{:else if data.body && data.body.response && data.body.response.total_hits === 0}
+						<p>No result</p>
+					{:else}
+						<p class="error">{data.message}</p>
+						<textarea rows="20" spellcheck="false">{JSON.stringify(data, null, 4)}</textarea>
+					{/if}
+				{:catch error}
+					<p class="error">Error: {error}</p>
+				{/await}
+			</div>
+
+			<div>
+				<h2>Keyword search results</h2>
+				<!-- <p>Sorted by popularity (relevancy not available)</p> -->
+				{@render showSearchURL(keywordSearchURL)}
+				{#await keywordPromise}
+					<p>Fetching results…</p>
+				{:then data}
+					{#if data.Count > 0}
+						<p>1 – {data.Count} of {data.Items[0].total} records</p>
+						<ul>
+							{#each data.Items as record (record.row_num)}
+								<RecordCard {record} />
+							{/each}
+						</ul>
+					{:else if data.Count === 0}
+						<p>No result</p>
+					{:else}
+						<p class="error">{data.errorMessage}</p>
+						<textarea rows="20" spellcheck="false">{JSON.stringify(data, null, 4)}</textarea>
+					{/if}
+				{:catch error}
+					<p class="error">Error: {error}</p>
+				{/await}
+			</div>
+		</div>
+	{/if}
 </main>
 
 <Footer />
 
 <style>
-    main {
-        font-family: Arial, sans-serif;
-        padding: 1rem;
-    }
-    h2 {
-        color: rebeccapurple;
-        margin-bottom: 0;
-    }
-    input {
-        padding: 0.5rem;
-        margin-right: 0.5rem;
-    }
-    button {
-        /* border-radius: 8px; */
-        padding: 0.5rem;
-    }
-    button:hover {
-        background-color: rgb(203, 192, 215);
-    }
-    button:focus {
-        background-color: rgb(168, 144, 194);
-    }
-    ul {
-        list-style: none;
-        padding: 0;
-    }
-    li {
-        margin: 1rem 0;
-        padding-left: 1rem;
-        /* padding: 1rem; */
-        border: 1px solid #ccc;
-        min-height: 300px;
-    }
-    header button {
-        font-size: 1rem;
-    }
-    img.graphicOverview {
-        width: 300px;
-        max-height: 300px;
-        float: right;
-    }
-    .flex-container {
-        margin-top: 1ex;
-        display: flex;
-        /*background-color: rebeccapurple;*/
-        width: 100%;
-        gap: 1em;
-    }
-    .flex-container > div {
-        background-color: white;
-        display: flex;
-        flex-direction: column;
-        flex-basis: 100%;
-        flex: 1;
-        border: solid 1px rebeccapurple;
-        padding: 0 1ex;
-    }
-    .small {
-        font-size: small;
-    }
-    .small > p {
-        margin: 3px;
-        overflow: hidden;
-        text-overflow: ellipsis;
-        height: 1lh;
-    }
-    .description {
-        /* Credit: https://stackoverflow.com/questions/33058004/applying-an-ellipsis-to-multiline-text
-                   https://stackoverflow.com/questions/3922739/limit-text-length-to-n-lines-using-css */
-        overflow: hidden;
-        display: -webkit-box;
-        -webkit-box-orient: vertical;
-        -webkit-line-clamp: 3;
-    }
+	main {
+		font-family: Arial, sans-serif;
+		padding: 1rem;
+	}
+	input {
+		padding: 0.5rem;
+		margin-right: 0.5rem;
+		width: 32em;
+	}
+	button {
+		/* border-radius: 8px; */
+		padding: 0.5rem;
+	}
+	button:hover {
+		background-color: rgb(203, 192, 215);
+	}
+	button:focus {
+		background-color: rgb(168, 144, 194);
+	}
+	ul {
+		list-style: none;
+		padding: 0;
+	}
+	h2 {
+		color: rebeccapurple;
+		margin-bottom: 0;
+	}
+	.flex-container {
+		margin-top: 1ex;
+		display: flex;
+		/*background-color: rebeccapurple;*/
+		width: 100%;
+		gap: 1em;
+	}
+	.flex-container > div {
+		background-color: white;
+		display: flex;
+		flex-direction: column;
+		flex-basis: 100%;
+		flex: 1;
+		border: solid 1px rebeccapurple;
+		padding: 0 1ex;
+	}
+	p.search-url {
+		font-size: 0.8em;
+	}
+	p.error {
+		color: red;
+	}
+	textarea {
+		field-sizing: content;
+		padding: 1ex;
+		resize: none;
+	}
 </style>
