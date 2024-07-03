@@ -8,7 +8,7 @@
 	let appGeoCaBaseURL = 'https://app.geo.ca';
 </script>
 
-<li>
+<li class="bg-blue-50/50">
 	{#if typeof record.graphicOverview === 'object' && Array.isArray(record.graphicOverview) && record.graphicOverview.length > 0 && record.graphicOverview.overviewFileName !== 'null'}
 		<!-- from Semantic search-->
 		<img
@@ -31,7 +31,7 @@
 			'&lang=en'}
 		target="_blank"
 	>
-		<h3>{record.row_num}. {record.title}</h3>
+		<h3 class="h3">{record.row_num}. {record.title}</h3>
 	</a>
 	<div class="small">
 		{#if record.keywords}
@@ -55,6 +55,7 @@
 					record.id +
 					'&lang=en'
 			)}
+		class="btn btn-sm variant-ghost-surface"
 	>
 		View record &rarr;
 	</button>
