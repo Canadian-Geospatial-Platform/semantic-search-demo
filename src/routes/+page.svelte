@@ -67,6 +67,14 @@
 
 		<p>Front-end demo v{version} (2024-07-03), work-in-progress</p>
 
+		<div class="card p-4 bg-fuschia-300">
+			Semantic search engines surpass simple keyword matching by interpreting the intent and context
+			of queries. Unlike traditional searches, semantic search processes natural language and
+			complex requests, recognizing synonyms and variations. We fine-tuned Sentence-Transformer
+			models to enhance search relevance for geospatial metadata. The semantic search API is
+			deployed using Amazon OpenSearch and Amazon SageMaker.
+		</div>
+
 		<section>
 			<form id="searchForm" onsubmit={handleSearch}>
 				<div class="input-group input-group-divider grid-cols-[auto_1fr_auto]">
@@ -93,7 +101,7 @@
 		<section>
 			{#if searchInitiated}
 				<div class="flex flex-row gap-5">
-					<div class="basis-1/2 border-2 bg-fuschia-50/50 border-blue-800 p-4">
+					<div class="basis-1/2 bg-fuschia-50/50 border-2 border-blue-800 p-4">
 						<h2 class="h2">Semantic search results</h2>
 						<!-- <p>Sorted by relevancy</p> -->
 						{@render showSearchURL(semanticSearchURL)}
@@ -122,7 +130,7 @@
 						{/await}
 					</div>
 
-					<div class="basis-1/2 border-2 bg-fuschia-50/50 border-blue-800 p-4">
+					<div class="basis-1/2 bg-fuschia-50/50 border-2 border-blue-800 p-4">
 						<h2 class="h2">Keyword search results</h2>
 						<!-- <p>Sorted by popularity (relevancy not available)</p> -->
 						{@render showSearchURL(keywordSearchURL)}

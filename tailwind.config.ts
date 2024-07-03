@@ -27,7 +27,7 @@ export default {
 		skeleton({
 			themes: {
 				preset: [
-					{ name: "skeleton", enhancements: true }
+					{ name: "skeleton", enhancements: false }
 				]
 			}
 		})
