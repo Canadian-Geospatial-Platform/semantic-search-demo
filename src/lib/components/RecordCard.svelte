@@ -5,7 +5,12 @@
 
 	let { record = {} as any }: Props = $props();
 
-	let appGeoCaBaseURL = 'https://app.geo.ca';
+	let thumbnailURL =
+		'https://app.geo.ca/result/en/' +
+		record.title.replace(/\W+/g, '-').toLowerCase() +
+		'?id=' +
+		record.id +
+		'&lang=en';
 </script>
 
 <li class="bg-blue-50/50">
@@ -22,16 +27,8 @@
 			<img src={graphicOverview[0].overviewFileName} alt="Preview thumbnail of {record.title}" />
 		{/if}
 	{/if}
-	<a
-		href={appGeoCaBaseURL +
-			'/result/en/' +
-			record.title.replace(/\W+/g, '-').toLowerCase() +
-			'?id=' +
-			record.id +
-			'&lang=en'}
-		target="_blank"
-	>
-		<h3 class="h3">{record.row_num}. {record.title}</h3>
+	<a href={thumbnailURL} target="_blank">
+		<h3>{record.row_num}. {record.title}</h3>
 	</a>
 	<div class="small">
 		{#if record.keywords}
@@ -46,19 +43,7 @@
 	</div>
 	<p class="description">{@html record.description.replaceAll('\\n', '<br />')}</p>
 	<!-- <p><strong>Extent:</strong> {item.extent}</p> -->
-	<button
-		onclick={() =>
-			window.open(
-					appGeoCaBaseURL +
-					record.title.replace(/\W+/g, '-').toLowerCase() +
-					'?id=' +
-					record.id +
-					'&lang=en'
-			)}
-		class="btn btn-sm variant-ghost-surface"
-	>
-		View record &rarr;
-	</button>
+	<button onclick={() => window.open(thumbnailURL)}> View record &rarr; </button>
 	<div class="small">
 		<p>
 			{#if record.relevancy}
