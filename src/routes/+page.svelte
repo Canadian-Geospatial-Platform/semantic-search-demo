@@ -93,7 +93,7 @@
 				aria-label="Search"
 				name="search"
 				type="search"
-				placeholder="Search..."
+				autofocus
 				bind:value={query}
 				oninput={clearSearchResults}
 			/>
