@@ -1,6 +1,6 @@
 <script lang="ts">
+	import Header from '$lib/components/Header.svelte';
 	import { version } from '$app/environment';
-	import Placeholder from '$lib/components/Placeholder.svelte';
 	import RecordCard from '$lib/components/RecordCard.svelte';
 	import Footer from '$lib/components/Footer.svelte';
 
@@ -57,139 +57,136 @@
 	/>
 </svelte:head>
 
-<!-- <Header /> -->
+<Header />
 
-<main>
-	<div class="container mx-auto space-y-8 p-8">
-		<!-- <div class="container mx-auto space-y-8 p-8"> -->
-		<h1 class="h1">Semantic Search API Demo for GEO.ca</h1>
-		<!-- <p>(Scheduled for released in December 2024)</p> -->
+<main class="fluid-container">
+	<section class="container" id="title">
+		<h1>Semantic Search API Demo for GEO.ca</h1>
+		<p>Front-end demo v{version} (2024-07-04), work-in-progress</p>
+	</section>
 
-		<p>Front-end demo v{version} (2024-07-03), work-in-progress</p>
-
-		<div class="card p-4 bg-fuschia-300">
+	<section class="container grid">
+		<article>
 			Semantic search engines surpass simple keyword matching by interpreting the intent and context
 			of queries. Unlike traditional searches, semantic search processes natural language and
 			complex requests, recognizing synonyms and variations. We fine-tuned Sentence-Transformer
 			models to enhance search relevance for geospatial metadata. The semantic search API is
 			deployed using Amazon OpenSearch and Amazon SageMaker.
-		</div>
+		</article>
 
-		<section>
-			<form id="searchForm" onsubmit={handleSearch}>
-				<div class="input-group input-group-divider grid-cols-[auto_1fr_auto]">
-					<div class="input-group-shim">
-						<i class="fa-solid fa-search"></i>
-					</div>
-					<input
-						type="search"
-						bind:value={query}
-						oninput={clearSearchResults}
-						placeholder="Search..."
-					/>
-					<button type="submit" class="variant-filled-secondary">Submit</button>
-				</div>
-			</form>
-		</section>
-
-		{#snippet showSearchURL(url)}
-			<p class="search-url overflow-hidden overflow-ellipsis">
-				<a href={url} target="_blank">{url}</a>
-			</p>
+		{#snippet githubRepo(repo)}
+			<a href="https://github.com/Canadian-Geospatial-Platform/{repo}" target="_blank">{repo}</a>
 		{/snippet}
+		<article>
+			<p>Visit our GitHub repositories:</p>
+			<ul class="github-repo">
+				<li>{@render githubRepo('semantic-search-model-evaluation')}</li>
+				<li>{@render githubRepo('semantic-search-with-amazon-opensearch')}</li>
+				<li>{@render githubRepo('semantic-search-demo')}</li>
+			</ul>
+		</article>
+	</section>
 
-		<section>
-			{#if searchInitiated}
-				<div class="flex flex-row gap-5">
-					<div class="basis-1/2 bg-fuschia-50/50 border-2 border-blue-800 p-4">
-						<h2 class="h2">Semantic search results</h2>
-						<!-- <p>Sorted by relevancy</p> -->
-						{@render showSearchURL(semanticSearchURL)}
-						{#await semanticPromise}
-							<p>Fetching results…</p>
-							<Placeholder />
-						{:then data}
-							{#if data.body && data.body.response && data.body.response.total_hits > 0}
-								<!-- <p>
+	<section class="container">
+		<form role="search" onsubmit={handleSearch}>
+			<input
+				aria-label="Search"
+				name="search"
+				type="search"
+				placeholder="Search..."
+				bind:value={query}
+				oninput={clearSearchResults}
+			/>
+			<input type="submit" value="Search" />
+		</form>
+	</section>
+
+	{#snippet showSearchURL(url)}
+		<p class="search-url">URL: <a href={url} target="_blank">{url}</a></p>
+	{/snippet}
+
+	{#snippet loadingResults()}
+		<p aria-busy="true">Fetching search results…</p>
+	{/snippet}
+
+	<section>
+		{#if searchInitiated}
+			<div class="grid">
+				<div>
+					<h2>Semantic search results</h2>
+					<!-- <p>Sorted by relevancy</p> -->
+					{@render showSearchURL(semanticSearchURL)}
+					{#await semanticPromise}
+						{@render loadingResults()}
+					{:then data}
+						{#if data.body && data.body.response && data.body.response.total_hits > 0}
+							<!-- <p>
 									1 – {data.body.response.total_hits} of {data.body.response.total_hits}(?) records
 								</p> -->
-								<ul>
-									{#each data.body.response.items as item (item.features[0].properties.row_num)}
-										{@const record = item.features[0].properties}
-										<RecordCard {record} />
-									{/each}
-								</ul>
-							{:else if data.body && data.body.response && data.body.response.total_hits === 0}
-								<p>No result</p>
-							{:else}
-								<p class="error">{data.message}</p>
-								<textarea rows="20" spellcheck="false">{JSON.stringify(data, null, 4)}</textarea>
-							{/if}
-						{:catch error}
-							<p class="error">Error: {error}</p>
-						{/await}
-					</div>
-
-					<div class="basis-1/2 bg-fuschia-50/50 border-2 border-blue-800 p-4">
-						<h2 class="h2">Keyword search results</h2>
-						<!-- <p>Sorted by popularity (relevancy not available)</p> -->
-						{@render showSearchURL(keywordSearchURL)}
-						{#await keywordPromise}
-							<p>Fetching results…</p>
-							<Placeholder />
-						{:then data}
-							{#if data.Count > 0}
-								<!-- <p>1 – {data.Count} of {data.Items[0].total} records</p> -->
-								<ul>
-									{#each data.Items as record (record.row_num)}
-										<RecordCard {record} />
-									{/each}
-								</ul>
-							{:else if data.Count === 0}
-								<p>No result</p>
-							{:else}
-								<p class="error">{data.errorMessage}</p>
-								<textarea rows="20" spellcheck="false">{JSON.stringify(data, null, 4)}</textarea>
-							{/if}
-						{:catch error}
-							<p class="error">Error: {error}</p>
-						{/await}
-					</div>
+							<div class="search-results">
+								{#each data.body.response.items as item (item.features[0].properties.row_num)}
+									{@const record = item.features[0].properties}
+									<RecordCard {record} />
+								{/each}
+							</div>
+						{:else if data.body && data.body.response && data.body.response.total_hits === 0}
+							<p>No result</p>
+						{:else}
+							<p class="error">{data.message}</p>
+							<textarea rows="20" spellcheck="false">{JSON.stringify(data, null, 4)}</textarea>
+						{/if}
+					{:catch error}
+						<p class="error">Error: {error}</p>
+					{/await}
 				</div>
-			{/if}
-		</section>
-	</div>
+
+				<div>
+					<h2>Keyword search results</h2>
+					<!-- <p>Sorted by popularity (relevancy not available)</p> -->
+					{@render showSearchURL(keywordSearchURL)}
+					{#await keywordPromise}
+						{@render loadingResults()}
+					{:then data}
+						{#if data.Count > 0}
+							<!-- <p>1 – {data.Count} of {data.Items[0].total} records</p> -->
+							<div class="search-results">
+								{#each data.Items as record (record.row_num)}
+									<RecordCard {record} />
+								{/each}
+							</div>
+						{:else if data.Count === 0}
+							<p>No result</p>
+						{:else}
+							<p class="error">{data.errorMessage}</p>
+							<textarea rows="20" spellcheck="false">{JSON.stringify(data, null, 4)}</textarea>
+						{/if}
+					{:catch error}
+						<p class="error">Error: {error}</p>
+					{/await}
+				</div>
+			</div>
+		{/if}
+	</section>
 </main>
 
 <Footer />
 
 <style>
-	ul {
-		list-style: none;
-		padding: 0;
+	main {
+		margin-top: 2rem;
 	}
-	h2 {
-		color: rebeccapurple;
-		margin-bottom: 0;
+	#title {
+		margin-bottom: 2rem;
 	}
-	.flex-container {
-		margin-top: 1ex;
-		display: flex;
-		/*background-color: rebeccapurple;*/
-		width: 100%;
-		gap: 1em;
-	}
-	.flex-container > div {
-		background-color: white;
-		display: flex;
-		flex-direction: column;
-		flex-basis: 100%;
-		flex: 1;
-		border: solid 1px rebeccapurple;
-		padding: 0 1ex;
+	input {
+		font-size: 125%;
+		height: 4rem;
 	}
 	p.search-url {
 		font-size: 0.8em;
+		overflow: hidden;
+		text-overflow: ellipsis;
+		white-space: nowrap;
 	}
 	p.error {
 		color: red;
@@ -198,5 +195,11 @@
 		field-sizing: content;
 		padding: 1ex;
 		resize: none;
+	}
+	.search-results {
+		padding: 0;
+	}
+	ul.github-repo {
+		margin-bottom: 0px;
 	}
 </style>
