@@ -38,7 +38,7 @@
 
             // Send the search query to the server
             // fetch(`/search?query=${encodeURIComponent(query)}`)
-            fetch(`https://search-recherche.geocore-dev.api.geo.ca/search-opensearch?method=SemanticSearch&searchString=${encodeURIComponent(query)}`)
+            fetch(`https://search-recherche.geocore-dev.api.geo.ca/search-opensearch?method=SemanticSearch&q=${encodeURIComponent(query)}`)
                 .then(response => response.json())
                 .then(data => {
                     // Clear the loading message

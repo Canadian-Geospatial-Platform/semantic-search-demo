@@ -9,7 +9,7 @@
 		`https://geocore.api.geo.ca/geo?keyword=${encodeURIComponent(query)}&keyword_only=true&lang=en&min=1&max=10&sort=popularity-desc`
 	);
 	let semanticSearchURL = $derived(
-		`https://search-recherche.geocore.api.geo.ca/search-opensearch?method=SemanticSearch&searchString=${encodeURIComponent(query)}`
+		`https://search-recherche.geocore.api.geo.ca/search-opensearch?method=SemanticSearch&q=${encodeURIComponent(query)}`
 	);
 	let keywordPromise = $state.frozen({} as Promise<any>);
 	let semanticPromise = $state.frozen({} as Promise<any>);
