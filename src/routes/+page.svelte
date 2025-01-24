@@ -62,7 +62,7 @@
 <main class="fluid-container">
 	<section class="container" id="title">
 		<h1>Semantic Search API Demo for GEO.ca</h1>
-		<p>Front-end demo v{version} (2024-07-04), work-in-progress</p>
+		<p>Front-end demo v{version} (2025-01-23), work-in-progress</p>
 	</section>
 
 	<section class="container grid">
@@ -119,21 +119,21 @@
 					{#await semanticPromise}
 						{@render loadingResults()}
 					{:then data}
-						{#if data.body && data.body.response && data.body.response.total_hits > 0}
-							<!-- <p>
-									1 – {data.body.response.total_hits} of {data.body.response.total_hits}(?) records
-								</p> -->
+						{#if data.response && data.response.total_hits > 0}
+							<p class="center">1 – {data.response.returned_hits} of {data.response.total_hits} records</p>
 							<div class="search-results">
-								{#each data.body.response.items as item (item.features[0].properties.row_num)}
+								{#each data.response.items as item (item.features[0].properties.row_num)}
 									{@const record = item.features[0].properties}
 									<RecordCard {record} />
 								{/each}
 							</div>
-						{:else if data.body && data.body.response && data.body.response.total_hits === 0}
+						{:else if data.response && data.response.total_hits === 0}
 							<p>No result</p>
 						{:else}
+							<p class="error">Parse error.  This demo likely needs to be updated to the latest API.</p>
+							<p>Returned results in JSON format:</p>
 							<p class="error">{data.message}</p>
-							<textarea rows="20" spellcheck="false">{JSON.stringify(data, null, 4)}</textarea>
+							<textarea rows="50" spellcheck="false">{JSON.stringify(data, null, 4)}</textarea>
 						{/if}
 					{:catch error}
 						<p class="error">Error: {error}</p>
@@ -148,7 +148,7 @@
 						{@render loadingResults()}
 					{:then data}
 						{#if data.Count > 0}
-							<!-- <p>1 – {data.Count} of {data.Items[0].total} records</p> -->
+							<p class="center">1 – {data.Count} of {data.Items[0].total} records</p>
 							<div class="search-results">
 								{#each data.Items as record (record.row_num)}
 									<RecordCard {record} />
@@ -190,6 +190,9 @@
 	}
 	p.error {
 		color: red;
+	}
+	p.center {
+		text-align: center;
 	}
 	textarea {
 		field-sizing: content;
