@@ -1,6 +1,6 @@
 <footer class="fluid-container">
 	<hr />
-	<p>GeoDiscovery, Canada Centre for Mapping and Earth Observation, Government of Canada, 2024</p>
+	<p>GeoDiscovery, Canada Centre for Mapping and Earth Observation, Government of Canada, 2024–2025</p>
 </footer>
 
 <style>
