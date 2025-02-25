@@ -11,8 +11,8 @@
 	let semanticSearchURL = $derived(
 		`https://search-recherche.geocore.api.geo.ca/search-opensearch?method=SemanticSearch&q=${encodeURIComponent(query)}`
 	);
-	let keywordPromise = $state.frozen({} as Promise<any>);
-	let semanticPromise = $state.frozen({} as Promise<any>);
+	let keywordPromise = $state.raw({} as Promise<any>);
+	let semanticPromise = $state.raw({} as Promise<any>);
 	let searchInitiated = $state(false);
 
 	async function fetchKeywordSearchResults(query: string): Promise<any> {
