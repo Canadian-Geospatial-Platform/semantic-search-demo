@@ -62,7 +62,7 @@
 <main class="fluid-container">
 	<section class="container" id="title">
 		<h1>Semantic Search API Demo for GEO.ca</h1>
-		<p>Front-end demo v{version} (2025-01-23), work-in-progress</p>
+		<p>Front-end demo v{version} (2025-04-30), work-in-progress</p>
 	</section>
 
 	<section class="container grid">
