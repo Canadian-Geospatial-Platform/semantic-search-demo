@@ -5,11 +5,16 @@
 
 	let { record = {} as any }: Props = $props();
 
+	let lang = 'en';
+
+	let title = record[`title_${lang}`] ?? record.title;
+	let keywords = record[`keywords_${lang}`] ?? record.keywords;
+	let description = record[`description_${lang}`] ?? record.description;
+
 	let thumbnailURL =
 		'https://app.geo.ca/result/en/' +
-		record.title_en.replace(/\W+/g, '-').toLowerCase() +
-		'?id=' +
-		record.id +
+		title.replace(/\W+/g, '-').toLowerCase() +
+		'?id=' + record.id +
 		'&lang=en';
 
 	async function showPlaceholder(event) {
@@ -30,7 +35,7 @@
 			<!-- from Semantic search-->
 			{@render showThumbnail(
 				record.graphicOverview[0].overviewFileName,
-				'Preview image of {record.title_en}'
+				`Preview image of ${title}`
 			)}
 		{:else if typeof record.graphicOverview === 'string'}
 			<!-- from Keyword search (Amazon Athena) -->
@@ -38,7 +43,7 @@
 			{#if graphicOverview.length > 0 && graphicOverview[0].overviewFileName !== 'null'}
 				{@render showThumbnail(
 					graphicOverview[0].overviewFileName,
-					'Preview image of {record.title_en}'
+					`Preview image of ${title}`
 				)}
 			{:else}
 				{@render noPreview()}
@@ -47,10 +52,10 @@
 			{@render noPreview()}
 		{/if}
 	</div>
-	<h3>{record.row_num}. <a href={thumbnailURL} target="_blank">{record.title_en}</a></h3>
+	<h3>{record.row_num}. <a href={thumbnailURL} target="_blank">{title}</a></h3>
 	<div class="small">
-		{#if record.keywords_en}
-			<p><b>Keywords:</b> {record.keywords_en}</p>
+		{#if keywords}
+			<p><b>Keywords:</b> {keywords}</p>
 		{/if}
 		{#if record.organisation}
 			<p><b>Organization:</b> {record.organisation}</p>
@@ -70,7 +75,7 @@
 			{/if}
 		</div>
 	</div>
-	<p class="description">{@html record.description_en.replaceAll('\\n', '<br />')}</p>
+	<p class="description">{@html description.replaceAll('\\n', '<br />')}</p>
 	<!-- <p><strong>Extent:</strong> {item.extent}</p> -->
 	<button onclick={() => window.open(thumbnailURL)}> View record &rarr; </button>
 </article>
