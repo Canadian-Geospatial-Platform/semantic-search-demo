@@ -109,8 +109,8 @@
 	</section>
 
 	<section class="container">
-		<form role="versus" onsubmit={setComparison} oninput={clearSearchResults}>
-		<select bind:value={rightMode}>
+		<form role="comparison" onsubmit={setComparison}>
+		<select bind:value={rightMode} oninput={clearSearchResults}>
 			<option value="keyword_search">Keyword Search</option>
 			<option value="semantic_search_existing">Semantic Search</option>
 			<option value="semantic_search_new">Semantic Search *New*</option>
