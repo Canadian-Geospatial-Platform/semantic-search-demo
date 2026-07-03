@@ -106,7 +106,6 @@
 	</section>
 
 	<section class="container">
-		<p>Choose the search modes you would like to compare</p>
 		<form role="comparison" class="side-by-side">
 			<select bind:value={leftMode} onchange={refreshSearchResults}>
 				{#each searchOptions as option}
@@ -115,16 +114,13 @@
 					</option>
 				{/each}
 			</select>
-			<em>VS</em>
+			<em style="position:relative; top:-2rem;">VS</em>
 			<select bind:value={rightMode} onchange={refreshSearchResults}>
 				{#each searchOptions as option}
 					<option value={option.value}> {option.label} </option>
 				{/each}
 			</select>
 		</form>
-	</section>
-
-	<section class="container">
 		<form role="search" onsubmit={handleSearch}>
 			<input
 				aria-label="Search"
@@ -227,6 +223,9 @@
 		margin-left: auto;
 		margin-right: auto;
 		width: max-content;
+		color: var(--pico-primary);
+    	font-weight: bold;
+		top: -1rem;
 	}
 	
 	.side-by-side select {
@@ -235,8 +234,6 @@
 		cursor: pointer;
 		background-color: transparent;
 		text-transform: capitalize;
-		color: var(--pico-primary);
-    	font-weight: bold;
 	}
 
 	p.search-url {
