@@ -13,13 +13,10 @@
 	];
 
 	let rightMode = $state(searchOptions[0].value);
-	const rightModeLabel = $derived(
-		searchOptions.find(option => option.value === rightMode)?.label ?? rightMode
-	);
-
 	let leftMode = $state(searchOptions[1].value);
-	const leftModeLabel = $derived(
-		searchOptions.find(option => option.value === leftMode)?.label ?? leftMode
+	
+	const searchOptionLabels = Object.fromEntries(
+		searchOptions.map(o => [o.value, o.label])
 	);
 	
 	let keywordSearchURL = $derived(
@@ -123,22 +120,20 @@
 	</section>
 
 	<section class="container">
-		<form role="comparison">
-		<select bind:value={leftMode} onchange={refreshSearchResults}>
-			{#each searchOptions as option}
-				<option value={option.value}>
-					{option.label}
-				</option>
-			{/each}
-		</select>
-		<em> VS </em>
-		<select bind:value={rightMode} onchange={refreshSearchResults}>
-			{#each searchOptions as option}
-				<option value={option.value}> {option.label} </option>
-			{/each}
-		</select>
-		<br>
-		<input type="submit" value="Search" />
+		<form role="comparison" class="side-by-side">
+			<select bind:value={leftMode} onchange={refreshSearchResults}>
+				{#each searchOptions as option}
+					<option value={option.value}>
+						{option.label}
+					</option>
+				{/each}
+			</select>
+			<em>VS</em>
+			<select bind:value={rightMode} onchange={refreshSearchResults}>
+				{#each searchOptions as option}
+					<option value={option.value}> {option.label} </option>
+				{/each}
+			</select>
 		</form>
 	</section>
 
@@ -154,7 +149,7 @@
 		{#if searchInitiated}
 			<div class="grid">
 				<div>
-					<h2>{leftModeLabel} results</h2>
+					<h2>{searchOptionLabels[leftMode]} results</h2>
 					<!-- <p>Sorted by relevancy</p> -->
 					{@render showSearchURL(semanticSearchURL)}
 					{#await semanticPromise}
@@ -182,7 +177,7 @@
 				</div>
 
 				<div>
-					<h2>{rightModeLabel} results</h2>
+					<h2>{searchOptionLabels[rightMode]} results</h2>
 					<!-- <p>Sorted by popularity (relevancy not available)</p> -->
 					{@render showSearchURL(keywordSearchURL)}
 					{#await keywordPromise}
@@ -223,6 +218,13 @@
 		font-size: 125%;
 		height: 4rem;
 	}
+	
+	.side-by-side {
+		display: flex;
+		align-items: center;
+		gap: 1rem; /* optional spacing */
+	}
+
 	p.search-url {
 		font-size: 0.8em;
 		overflow: hidden;
