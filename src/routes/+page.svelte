@@ -7,7 +7,7 @@
 	let query = $state('');
 	let leftMode = $state('');
 	let rigthMode = $state('');
-	let query = $state('');
+	
 	let keywordSearchURL = $derived(
 		`https://geocore.api.geo.ca/geo?keyword=${encodeURIComponent(query)}&keyword_only=true&lang=en&min=1&max=10&sort=popularity-desc`
 	);
