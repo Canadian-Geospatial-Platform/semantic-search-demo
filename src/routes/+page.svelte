@@ -223,13 +223,17 @@
 	.side-by-side {
 		display: flex;
 		align-items: center;
-		gap: 1rem;
+		gap: 2rem;
+		margin-left: 5rem;
+    	margin-right: 5rem;
 	}
 	
 	.side-by-side select {
 		border: None;
 		padding-right: 2rem;
 		cursor: pointer;
+		background-color: none;
+		text-transform: capitalize;
 	}
 
 	p.search-url {
