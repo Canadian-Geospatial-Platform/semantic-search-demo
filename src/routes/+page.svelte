@@ -114,7 +114,7 @@
 					</option>
 				{/each}
 			</select>
-			<em style="position:relative; top:-2rem;">VS</em>
+			<em style="position:relative; top:-0.5rem;">VS</em>
 			<select bind:value={rightMode} onchange={refreshSearchResults}>
 				{#each searchOptions as option}
 					<option value={option.value}> {option.label} </option>
@@ -225,7 +225,9 @@
 		width: max-content;
 		color: var(--pico-primary);
     	font-weight: bold;
-		top: -1rem;
+		background-color: var(--pico-secondary-focus);
+		border-top-left-radius: 10px;
+		border-top-right-radius: 10px;
 	}
 	
 	.side-by-side select {
@@ -234,6 +236,7 @@
 		cursor: pointer;
 		background-color: transparent;
 		text-transform: capitalize;
+		margin: 1rem;
 	}
 
 	p.search-url {
