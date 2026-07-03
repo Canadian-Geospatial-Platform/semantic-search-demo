@@ -6,15 +6,21 @@
 
 	let query = $state('');
 
-	
 	const searchOptions = [
 		{ value: 'keyword_search', label: 'Keyword Search' },
 		{ value: 'semantic_search', label: 'Semantic Search' },
 		{ value: 'semantic_search_new', label: 'Semantic Search *New*' }
 	];
 
-	let rightMode = $state(searchOptions[0]);
-	let leftMode = $state(searchOptions[1]);
+	let rightMode = $state(searchOptions[0].value);
+	const rightModeLabel = $derived(
+		searchOptions.find(option => option.value === rightMode)?.label ?? rightMode
+	);
+
+	let leftMode = $state(searchOptions[1].value);
+	const leftModeLabel = $derived(
+		searchOptions.find(option => option.value === leftMode)?.label ?? leftMode
+	);
 	
 	let keywordSearchURL = $derived(
 		`https://geocore.api.geo.ca/geo?keyword=${encodeURIComponent(query)}&keyword_only=true&lang=en&min=1&max=10&sort=popularity-desc`
@@ -148,7 +154,7 @@
 		{#if searchInitiated}
 			<div class="grid">
 				<div>
-					<h2>{leftMode} results</h2>
+					<h2>{leftModeLabel} results</h2>
 					<!-- <p>Sorted by relevancy</p> -->
 					{@render showSearchURL(semanticSearchURL)}
 					{#await semanticPromise}
@@ -176,7 +182,7 @@
 				</div>
 
 				<div>
-					<h2>{rightMode} results</h2>
+					<h2>{rightModeLabel} results</h2>
 					<!-- <p>Sorted by popularity (relevancy not available)</p> -->
 					{@render showSearchURL(keywordSearchURL)}
 					{#await keywordPromise}
