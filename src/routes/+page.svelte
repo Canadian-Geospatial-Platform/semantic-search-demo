@@ -44,6 +44,10 @@
 		semanticPromise = Promise.resolve({});
 		searchInitiated = false;
 	}
+
+	function setComparison() {
+		console.log("Set comparison")
+	}
 </script>
 
 <svelte:head>
@@ -98,6 +102,24 @@
 				oninput={clearSearchResults}
 			/>
 			<input type="submit" value="Search" />
+		</form>
+	</section>
+
+	<section class="container">
+		<form role="versus" onsubmit={setComparison} oninput={clearSearchResults}>
+		<select bind:value={right-mode}>
+			<option value="keyword_search">Keyword Search</option>
+			<option value="semantic_search_existing">Semantic Search</option>
+			<option value="semantic_search_new">Semantic Search *New*</option>
+		</select>
+		<em> VS </em>
+		<select bind:value={left-mode} oninput={clearSearchResults}>
+			<option value="keyword_search">Keyword Search</option>
+			<option value="semantic_search_existing">Semantic Search</option>
+			<option value="semantic_search_new">Semantic Search *New*</option>
+		</select>
+		<br>
+		<input type="submit" value="Search" />
 		</form>
 	</section>
 
