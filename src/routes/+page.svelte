@@ -5,8 +5,16 @@
 	import Footer from '$lib/components/Footer.svelte';
 
 	let query = $state('');
-	let leftMode = $state('semantic_search');
-	let rightMode = $state('keyword_search');
+
+	
+	const searchOptions = [
+		{ value: 'keyword_search', label: 'Keyword Search' },
+		{ value: 'semantic_search', label: 'Semantic Search' },
+		{ value: 'semantic_search_new', label: 'Semantic Search *New*' }
+	];
+
+	let rightMode = $state(searchOptions[0]);
+	let leftMode = $state(searchOptions[1]);
 	
 	let keywordSearchURL = $derived(
 		`https://geocore.api.geo.ca/geo?keyword=${encodeURIComponent(query)}&keyword_only=true&lang=en&min=1&max=10&sort=popularity-desc`
@@ -48,7 +56,7 @@
 		searchInitiated = false;
 	}
 
-	function setComparison() {
+	function refreshSearchResults() {
 		console.log("Set comparison")
 	}
 </script>
@@ -109,17 +117,19 @@
 	</section>
 
 	<section class="container">
-		<form role="comparison" onsubmit={setComparison}>
-		<select bind:value={leftMode} oninput={clearSearchResults}>
-			<option value="keyword_search">Keyword Search</option>
-			<option value="semantic_search" selected>Semantic Search</option>
-			<option value="semantic_search_new">Semantic Search *New*</option>
+		<form role="comparison">
+		<select bind:value={leftMode} onchange={refreshSearchResults}>
+			{#each searchOptions as option}
+				<option value={option.value}>
+					{option.label}
+				</option>
+			{/each}
 		</select>
 		<em> VS </em>
-		<select bind:value={rightMode} onsubmit={setComparison} oninput={clearSearchResults}>
-			<option value="keyword_search" selected>Keyword Search</option>
-			<option value="semantic_search">Semantic Search</option>
-			<option value="semantic_search_new">Semantic Search *New*</option>
+		<select bind:value={rightMode} onchange={refreshSearchResults}>
+			{#each searchOptions as option}
+				<option value={option.value}> {option.label} </option>
+			{/each}
 		</select>
 		<br>
 		<input type="submit" value="Search" />
@@ -138,7 +148,7 @@
 		{#if searchInitiated}
 			<div class="grid">
 				<div>
-					<h2>Semantic search results</h2>
+					<h2>{leftMode} results</h2>
 					<!-- <p>Sorted by relevancy</p> -->
 					{@render showSearchURL(semanticSearchURL)}
 					{#await semanticPromise}
@@ -166,7 +176,7 @@
 				</div>
 
 				<div>
-					<h2>Keyword search results</h2>
+					<h2>{rightMode} results</h2>
 					<!-- <p>Sorted by popularity (relevancy not available)</p> -->
 					{@render showSearchURL(keywordSearchURL)}
 					{#await keywordPromise}
