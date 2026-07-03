@@ -5,8 +5,8 @@
 	import Footer from '$lib/components/Footer.svelte';
 
 	let query = $state('');
-	let leftMode = $state('');
-	let rigthMode = $state('');
+	let leftMode = $state('semantic_search');
+	let rightMode = $state('keyword_search');
 	
 	let keywordSearchURL = $derived(
 		`https://geocore.api.geo.ca/geo?keyword=${encodeURIComponent(query)}&keyword_only=true&lang=en&min=1&max=10&sort=popularity-desc`
@@ -110,15 +110,15 @@
 
 	<section class="container">
 		<form role="comparison" onsubmit={setComparison}>
-		<select bind:value={rightMode} oninput={clearSearchResults}>
+		<select bind:value={leftMode} oninput={clearSearchResults}>
 			<option value="keyword_search">Keyword Search</option>
-			<option value="semantic_search_existing">Semantic Search</option>
+			<option value="semantic_search" selected>Semantic Search</option>
 			<option value="semantic_search_new">Semantic Search *New*</option>
 		</select>
 		<em> VS </em>
-		<select bind:value={leftMode} onsubmit={setComparison} oninput={clearSearchResults}>
-			<option value="keyword_search">Keyword Search</option>
-			<option value="semantic_search_existing">Semantic Search</option>
+		<select bind:value={rightMode} onsubmit={setComparison} oninput={clearSearchResults}>
+			<option value="keyword_search" selected>Keyword Search</option>
+			<option value="semantic_search">Semantic Search</option>
 			<option value="semantic_search_new">Semantic Search *New*</option>
 		</select>
 		<br>
