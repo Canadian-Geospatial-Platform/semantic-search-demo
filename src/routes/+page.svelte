@@ -224,16 +224,19 @@
 		display: flex;
 		align-items: center;
 		gap: 2rem;
-		margin-left: 5rem;
-    	margin-right: 5rem;
+		margin-left: auto;
+		margin-right: auto;
+		width: max-content;
 	}
 	
 	.side-by-side select {
 		border: None;
 		padding-right: 2rem;
 		cursor: pointer;
-		background-color: none;
+		background-color: transparent;
 		text-transform: capitalize;
+		color: var(--pico-primary);
+    	font-weight: bold;
 	}
 
 	p.search-url {
