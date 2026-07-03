@@ -106,20 +106,7 @@
 	</section>
 
 	<section class="container">
-		<form role="search" onsubmit={handleSearch}>
-			<input
-				aria-label="Search"
-				name="search"
-				type="search"
-				autofocus
-				bind:value={query}
-				oninput={clearSearchResults}
-			/>
-			<input type="submit" value="Search" />
-		</form>
-	</section>
-
-	<section class="container">
+		<p>Choose the search modes you would like to compare</p>
 		<form role="comparison" class="side-by-side">
 			<select bind:value={leftMode} onchange={refreshSearchResults}>
 				{#each searchOptions as option}
@@ -134,6 +121,20 @@
 					<option value={option.value}> {option.label} </option>
 				{/each}
 			</select>
+		</form>
+	</section>
+
+	<section class="container">
+		<form role="search" onsubmit={handleSearch}>
+			<input
+				aria-label="Search"
+				name="search"
+				type="search"
+				autofocus
+				bind:value={query}
+				oninput={clearSearchResults}
+			/>
+			<input type="submit" value="Search" />
 		</form>
 	</section>
 
@@ -222,7 +223,13 @@
 	.side-by-side {
 		display: flex;
 		align-items: center;
-		gap: 1rem; /* optional spacing */
+		gap: 1rem;
+	}
+	
+	.side-by-side select {
+		border: None;
+		padding-right: 2rem;
+		cursor: pointer;
 	}
 
 	p.search-url {
