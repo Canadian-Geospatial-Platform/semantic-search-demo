@@ -5,25 +5,7 @@
 	import Footer from '$lib/components/Footer.svelte';
 
 	let query = $state('');
-
-	const searchModeMapper = {
-		'keyword_search': {
-			'url': $derived(
-				`https://geocore.api.geo.ca/geo?keyword=${encodeURIComponent(query)}&keyword_only=true&lang=en&min=1&max=10&sort=popularity-desc`
-			)
-		},
-		'semantic_search': {
-			'url': $derived(
-				`https://search-recherche.geocore.api.geo.ca/search-opensearch?method=SemanticSearch&q=${encodeURIComponent(query)}`
-			)
-		},
-		'semantic_search_new': {
-			'url': $derived(
-				`https://search-recherche.geocore.api.geo.ca/search-opensearch?method=SemanticSearch&q=${encodeURIComponent(query)}`
-			)
-		},
-	}
-
+	
 	const searchOptions = [
 		{ value: 'keyword_search', label: 'Keyword Search' },
 		{ value: 'semantic_search', label: 'Semantic Search' },
