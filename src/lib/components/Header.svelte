@@ -2,9 +2,11 @@
 	import { getLocale, setLocale } from "$lib/paraglide/runtime.js";
 
 	
-	function switchLanguage(lang: 'en' | 'fr') {
-		setLocale(lang);
-		localStorage.setItem('locale', lang);
+	function toggleLanguage() {
+		const currentLocale = getLocale();
+		const newLocale = currentLocale === 'en' ? 'fr' : 'en';
+		setLocale(newLocale);
+		localStorage.setItem('locale', newLocale);
 	}
 </script>
 <header class="fluid-container">
