@@ -1,6 +1,5 @@
 <script lang="ts">
 	import { getLocale, setLocale } from "$lib/paraglide/runtime.js";
-
 	
 	function toggleLanguage() {
 		const currentLocale = getLocale();
@@ -29,7 +28,7 @@
 				</details>
 			</li> -->
 			<li>
-				<button onclick={switchLanguage}>
+				<button onclick={toggleLanguage}>
 					{getLocale() === 'en' ? 'Français' : 'English'}
 				</button>
 			</li>
