@@ -15,10 +15,10 @@
 
 	// Define a mapping of search modes to their corresponding API endpoints
 	type SearchEngine = 'keyword_search' | 'semantic_search' | 'semantic_search_new';
-	const engineApiMap: Record<SearchEngine, (query: string) => string> = {
-		keyword_search: (q) => `https://geocore.api.geo.ca/geo?keyword=${encodeURIComponent(query)}&keyword_only=true&lang=en&min=1&max=10&sort=popularity-desc`,
-		semantic_search: (q) => `https://search-recherche.geocore.api.geo.ca/search-opensearch?method=SemanticSearch&q=${encodeURIComponent(query)}`,
-		semantic_search_new: (q) => `https://search-recherche.geocore.api.geo.ca/search-opensearch?method=SemanticSearch&q=${encodeURIComponent(query)}`
+	const searchApiMap: Record<SearchEngine, (query: string) => string> = {
+		keyword_search: (q) => `https://geocore.api.geo.ca/geo?keyword=${encodeURIComponent(q)}&keyword_only=true&lang=en&min=1&max=10&sort=popularity-desc`,
+		semantic_search: (q) => `https://search-recherche.geocore.api.geo.ca/search-opensearch?method=SemanticSearch&q=${encodeURIComponent(q)}`,
+		semantic_search_new: (q) => `https://search-recherche.geocore.api.geo.ca/search-opensearch?method=SemanticSearch&q=${encodeURIComponent(q)}`
 	};
 
 	let rightMode = $state(searchOptions[0].value);
@@ -56,6 +56,10 @@
 	// 	const data = await res.json();
 	// 	return data;
 	// }
+	
+	// Derive the search URLs based on the selected modes and query
+	const urlLeft = $derived(searchApiMap[leftMode](query));
+	const urlRight = $derived(searchApiMap[rightMode](query));
 
 	async function handleSearch(event: Event) {
 		event.preventDefault();
@@ -64,9 +68,6 @@
 			return;
 		}
 		searchInitiated = true;
-
-		const urlLeft = $derived(engineApiMap[leftMode](query));
-		const urlRight = $derived(engineApiMap[rightMode](query));
 
 		promiseLeft = fetchSearchResults(urlLeft);
 		promiseRight = fetchSearchResults(urlRight);
@@ -171,7 +172,7 @@
 				<div>
 					<h2>{searchOptionLabels[leftMode]} results</h2>
 					<!-- <p>Sorted by relevancy</p> -->
-					{@render showSearchURL($derived(engineApiMap[leftMode](query)))}
+					{@render showSearchURL(urlLeft)}
 					{#await promiseLeft}
 						{@render loadingResults()}
 					{:then data}
@@ -199,7 +200,7 @@
 				<div>
 					<h2>{searchOptionLabels[rightMode]} results</h2>
 					<!-- <p>Sorted by popularity (relevancy not available)</p> -->
-					{@render showSearchURL($derived(engineApiMap[rightMode](query)))}
+					{@render showSearchURL(urlRight)}
 					{#await promiseRight}
 						{@render loadingResults()}
 					{:then data}
