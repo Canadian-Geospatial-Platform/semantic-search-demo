@@ -1,11 +1,13 @@
 <script lang="ts">
+	import { getLocale } from "$lib/paraglide/runtime.js";
+
 	interface Props {
 		record?: any;
 	}
 
 	let { record = {} as any }: Props = $props();
 
-	let lang = 'en';
+	let lang = getLocale();
 
 	let title = record[`title_${lang}`] ?? record.title;
 	let keywords = record[`keywords_${lang}`] ?? record.keywords;
