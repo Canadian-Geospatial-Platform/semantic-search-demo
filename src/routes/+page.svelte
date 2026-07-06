@@ -79,15 +79,15 @@
 		searchInitiated = false;
 	}
 
-	function refreshSearchResults(event: Event) {
-		console.log("Set comparison");
-		clearSearchResults();
+	// function refreshSearchResults(event: Event) {
+	// 	console.log("Set comparison");
+	// 	clearSearchResults();
 
-		if (query.trim()) {
-			handleSearch(event);
-		}
-		console.log("Done.");
-	}
+	// 	if (query.trim()) {
+	// 		handleSearch(event);
+	// 	}
+	// 	console.log("Done.");
+	// }
 </script>
 
 <svelte:head>
@@ -133,7 +133,7 @@
 
 	<section class="container">
 		<form role="comparison" class="side-by-side">
-			<select bind:value={leftMode} onchange={refreshSearchResults} class="select-search-mode">
+			<select bind:value={leftMode} onchange={clearSearchResults} class="select-search-mode">
 				{#each searchOptions as option}
 					<option value={option.value}>
 						{option.label}
@@ -141,7 +141,7 @@
 				{/each}
 			</select>
 			<em style="position:relative; top:-1px;">VS</em>
-			<select bind:value={rightMode} onchange={refreshSearchResults} class="select-search-mode">
+			<select bind:value={rightMode} onchange={clearSearchResults} class="select-search-mode">
 				{#each searchOptions as option}
 					<option value={option.value}> {option.label} </option>
 				{/each}
