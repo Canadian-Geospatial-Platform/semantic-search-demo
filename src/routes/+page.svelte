@@ -131,7 +131,7 @@
 
 	<section class="container">
 		<form role="comparison" class="side-by-side">
-			<select bind:value={leftMode} onchange={refreshSearchResults}>
+			<select bind:value={leftMode} onchange={refreshSearchResults} class="select-search-mode">
 				{#each searchOptions as option}
 					<option value={option.value}>
 						{option.label}
@@ -139,7 +139,7 @@
 				{/each}
 			</select>
 			<em style="position:relative; top:-1px;">VS</em>
-			<select bind:value={rightMode} onchange={refreshSearchResults}>
+			<select bind:value={rightMode} onchange={refreshSearchResults} class="select-search-mode">
 				{#each searchOptions as option}
 					<option value={option.value}> {option.label} </option>
 				{/each}
@@ -154,7 +154,7 @@
 				bind:value={query}
 				oninput={clearSearchResults}
 			/>
-			<input type="submit" value="Search" />
+			<input type="submit" value="Search" id="search-submit" />
 		</form>
 	</section>
 
