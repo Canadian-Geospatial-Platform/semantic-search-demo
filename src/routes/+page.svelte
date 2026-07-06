@@ -30,12 +30,6 @@
 		searchOptions.map(o => [o.value, o.label])
 	);
 	
-	// let keywordSearchURL = $derived(
-	// 	`https://geocore.api.geo.ca/geo?keyword=${encodeURIComponent(query)}&keyword_only=true&lang=en&min=1&max=10&sort=popularity-desc`
-	// );
-	// let semanticSearchURL = $derived(
-	// 	`https://search-recherche.geocore.api.geo.ca/search-opensearch?method=SemanticSearch&q=${encodeURIComponent(query)}`
-	// );
 	let promiseLeft = $state.raw({} as Promise<any>);
 	let promiseRight = $state.raw({} as Promise<any>);
 	let searchInitiated = $state(false);
@@ -45,19 +39,6 @@
 		const data = await res.json();
 		return data;
 	}
-
-	// async function fetchKeywordSearchResults(query: string): Promise<any> {
-	// 	const res = await fetch(keywordSearchURL);
-	// 	console.log(res);
-	// 	const data = await res.json();
-	// 	return data;
-	// }
-
-	// async function fetchSemanticSearchResults(query: string): Promise<any> {
-	// 	const res = await fetch(semanticSearchURL);
-	// 	const data = await res.json();
-	// 	return data;
-	// }
 	
 	// Derive the search URLs based on the selected modes and query
 	const urlLeft = $derived(searchApiMap[leftMode](query));
@@ -80,17 +61,7 @@
 		promiseRight = Promise.resolve({});
 		searchInitiated = false;
 	}
-
-	// function refreshSearchResults(event: Event) {
-	// 	console.log("Set comparison");
-	// 	clearSearchResults();
-
-	// 	if (query.trim()) {
-	// 		handleSearch(event);
-	// 	}
-	// 	console.log("Done.");
-	// }
-	console.log(getLocale());
+	
 </script>
 
 <svelte:head>
