@@ -7,6 +7,9 @@
     "fr"
   ],
   "modules": [
-    "https://cdn.jsdelivr.net/npm/@inlang/message-format-plugin/dist/index.js"
-  ]
+    "https://cdn.jsdelivr.net/npm/@inlang/plugin-message-format@latest/dist/index.js"
+  ],
+  "plugin.inlang.messageFormat": {
+    "pathPattern": "./src/i18n/{locale}.json"
+    }
 }
