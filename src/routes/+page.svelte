@@ -83,7 +83,9 @@
 		console.log("Set comparison");
 		clearSearchResults();
 
-		handleSearch(event);
+		if (query.trim()) {
+			handleSearch(event);
+		}
 		console.log("Done.");
 	}
 </script>
