@@ -23,11 +23,7 @@ export const load = async () => {
             password: true
           }
         },
-        loaded: (posthog) => {
-            posthog.register({
-              locale: getLocale()
-            });
-          }
+        overrideDisplayLanguage: getLocale() === 'fr' ? 'fr-ca' : 'en'
       });
     }
   }
