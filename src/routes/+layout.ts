@@ -23,7 +23,11 @@ export const load = async () => {
             password: true
           }
         },
-        locale: getLocale()
+        loaded: (posthog) => {
+            posthog.register({
+              locale: getLocale()
+            });
+          }
       });
     }
   }
