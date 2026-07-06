@@ -5,12 +5,21 @@
 	import Footer from '$lib/components/Footer.svelte';
 
 	let query = $state('');
-	
+
+	// Define dropdown options for search modes
 	const searchOptions = [
 		{ value: 'keyword_search', label: 'Keyword Search' },
 		{ value: 'semantic_search', label: 'Semantic Search' },
 		{ value: 'semantic_search_new', label: 'Semantic Search *New*' }
 	];
+
+	// Define a mapping of search modes to their corresponding API endpoints
+	type SearchEngine = 'keyword_search' | 'semantic_search' | 'semantic_search_new';
+	const engineApiMap: Record<SearchEngine, (query: string) => string> = {
+		keyword_search: (q) => `https://geocore.api.geo.ca/geo?keyword=${encodeURIComponent(query)}&keyword_only=true&lang=en&min=1&max=10&sort=popularity-desc`,
+		semantic_search: (q) => `https://search-recherche.geocore.api.geo.ca/search-opensearch?method=SemanticSearch&q=${encodeURIComponent(query)}`,
+		semantic_search_new: (q) => `https://search-recherche.geocore.api.geo.ca/search-opensearch?method=SemanticSearch&q=${encodeURIComponent(query)}`
+	};
 
 	let rightMode = $state(searchOptions[0].value);
 	let leftMode = $state(searchOptions[1].value);
@@ -19,28 +28,34 @@
 		searchOptions.map(o => [o.value, o.label])
 	);
 	
-	let keywordSearchURL = $derived(
-		`https://geocore.api.geo.ca/geo?keyword=${encodeURIComponent(query)}&keyword_only=true&lang=en&min=1&max=10&sort=popularity-desc`
-	);
-	let semanticSearchURL = $derived(
-		`https://search-recherche.geocore.api.geo.ca/search-opensearch?method=SemanticSearch&q=${encodeURIComponent(query)}`
-	);
-	let keywordPromise = $state.raw({} as Promise<any>);
-	let semanticPromise = $state.raw({} as Promise<any>);
+	// let keywordSearchURL = $derived(
+	// 	`https://geocore.api.geo.ca/geo?keyword=${encodeURIComponent(query)}&keyword_only=true&lang=en&min=1&max=10&sort=popularity-desc`
+	// );
+	// let semanticSearchURL = $derived(
+	// 	`https://search-recherche.geocore.api.geo.ca/search-opensearch?method=SemanticSearch&q=${encodeURIComponent(query)}`
+	// );
+	let promiseLeft = $state.raw({} as Promise<any>);
+	let promiseRight = $state.raw({} as Promise<any>);
 	let searchInitiated = $state(false);
 
-	async function fetchKeywordSearchResults(query: string): Promise<any> {
-		const res = await fetch(keywordSearchURL);
-		console.log(res);
+	async function fetchSearchResults(url: string): Promise<any> {
+		const res = await fetch(url);
 		const data = await res.json();
 		return data;
 	}
 
-	async function fetchSemanticSearchResults(query: string): Promise<any> {
-		const res = await fetch(semanticSearchURL);
-		const data = await res.json();
-		return data;
-	}
+	// async function fetchKeywordSearchResults(query: string): Promise<any> {
+	// 	const res = await fetch(keywordSearchURL);
+	// 	console.log(res);
+	// 	const data = await res.json();
+	// 	return data;
+	// }
+
+	// async function fetchSemanticSearchResults(query: string): Promise<any> {
+	// 	const res = await fetch(semanticSearchURL);
+	// 	const data = await res.json();
+	// 	return data;
+	// }
 
 	async function handleSearch(event: Event) {
 		event.preventDefault();
@@ -49,13 +64,17 @@
 			return;
 		}
 		searchInitiated = true;
-		keywordPromise = fetchKeywordSearchResults(query);
-		semanticPromise = fetchSemanticSearchResults(query);
+
+		const urlLeft = $derived(engineApiMap[leftMode](query));
+		const urlRight = $derived(engineApiMap[rightMode](query));
+
+		promiseLeft = fetchSearchResults(urlLeft);
+		promiseRight = fetchSearchResults(urlRight);
 	}
 
 	function clearSearchResults() {
-		keywordPromise = Promise.resolve({});
-		semanticPromise = Promise.resolve({});
+		promiseLeft = Promise.resolve({});
+		promiseRight = Promise.resolve({});
 		searchInitiated = false;
 	}
 
@@ -152,8 +171,8 @@
 				<div>
 					<h2>{searchOptionLabels[leftMode]} results</h2>
 					<!-- <p>Sorted by relevancy</p> -->
-					{@render showSearchURL(semanticSearchURL)}
-					{#await semanticPromise}
+					{@render showSearchURL($derived(engineApiMap[leftMode](query)))}
+					{#await promiseLeft}
 						{@render loadingResults()}
 					{:then data}
 						{#if data.response && data.response.total_hits > 0}
@@ -180,8 +199,8 @@
 				<div>
 					<h2>{searchOptionLabels[rightMode]} results</h2>
 					<!-- <p>Sorted by popularity (relevancy not available)</p> -->
-					{@render showSearchURL(keywordSearchURL)}
-					{#await keywordPromise}
+					{@render showSearchURL($derived(engineApiMap[rightMode](query)))}
+					{#await promiseRight}
 						{@render loadingResults()}
 					{:then data}
 						{#if data.Count > 0}
