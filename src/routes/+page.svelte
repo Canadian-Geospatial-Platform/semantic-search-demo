@@ -4,6 +4,7 @@
 	import RecordCard from '$lib/components/RecordCard.svelte';
 	import Footer from '$lib/components/Footer.svelte';
 	import { m } from "$lib/paraglide/messages.js";
+	import { getLocale } from "$lib/paraglide/runtime.js";
 
 	let query = $state('');
 
@@ -89,6 +90,7 @@
 	// 	}
 	// 	console.log("Done.");
 	// }
+	console.log(getLocale());
 </script>
 
 <svelte:head>
