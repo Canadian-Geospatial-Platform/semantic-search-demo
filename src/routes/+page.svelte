@@ -10,9 +10,9 @@
 
 	// Define dropdown options for search modes
 	const searchOptions = [
-		{ value: 'keyword_search', label: 'Keyword Search' },
-		{ value: 'semantic_search', label: 'Semantic Search' },
-		{ value: 'semantic_search_new', label: 'Semantic Search *New*' }
+		{ value: 'keyword_search', label: m.keyword_search() },
+		{ value: 'semantic_search', label: m.semantic_search() },
+		{ value: 'semantic_search_new', label: m.semantic_search_new() }
 	];
 
 	// Define a mapping of search modes to their corresponding API endpoints
@@ -94,7 +94,7 @@
 </script>
 
 <svelte:head>
-	<title>{m.website_title()}</title>
+	<title>Semantic Search API Demo for GEO.ca</title>
 	<link
 		rel="stylesheet"
 		href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.2/css/all.min.css"
@@ -108,24 +108,20 @@
 
 <main class="fluid-container">
 	<section class="container" id="title">
-		<h1>Semantic Search API Demo for GEO.ca</h1>
-		<p>Front-end demo v{version} (2025-04-30), work-in-progress</p>
+		<h1>{m.website_header()}</h1>
+		<p>v{version} (2025-04-30)</p>
 	</section>
 
 	<section class="container grid">
 		<article>
-			Semantic search engines surpass simple keyword matching by interpreting the intent and context
-			of queries. Unlike traditional searches, semantic search processes natural language and
-			complex requests, recognizing synonyms and variations. We fine-tuned Sentence-Transformer
-			models to enhance search relevance for geospatial metadata. The semantic search API is
-			deployed using Amazon OpenSearch and Amazon SageMaker.
+			{m.semantic_search_description()}
 		</article>
 
 		{#snippet githubRepo(repo)}
 			<a href="https://github.com/Canadian-Geospatial-Platform/{repo}" target="_blank">{repo}</a>
 		{/snippet}
 		<article>
-			<p>Visit our GitHub repositories:</p>
+			<p>{m.visit_github_call()}</p>
 			<ul class="github-repo">
 				<li>{@render githubRepo('semantic-search-model-evaluation')}</li>
 				<li>{@render githubRepo('semantic-search-with-amazon-opensearch')}</li>
@@ -159,7 +155,7 @@
 				bind:value={query}
 				oninput={clearSearchResults}
 			/>
-			<input type="submit" value="Search" id="search-submit" />
+			<input type="submit" value={m.search_button()} id="search-submit" />
 		</form>
 	</section>
 
@@ -207,7 +203,7 @@
 							{:else if data.response && data.response.total_hits === 0}
 								<p>No result</p>
 							{:else}
-								<p class="error">Parse error.  This demo likely needs to be updated to the latest API.</p>
+								<p class="error">{m.parse_error()}</p>
 								<p>Returned results in JSON format:</p>
 								<p class="error">{data.message}</p>
 								<textarea rows="50" spellcheck="false">{JSON.stringify(data, null, 4)}</textarea>
@@ -251,7 +247,7 @@
 							{:else if data.response && data.response.total_hits === 0}
 								<p>No result</p>
 							{:else}
-								<p class="error">Parse error.  This demo likely needs to be updated to the latest API.</p>
+								<p class="error">{m.parse_error()}</p>
 								<p>Returned results in JSON format:</p>
 								<p class="error">{data.message}</p>
 								<textarea rows="50" spellcheck="false">{JSON.stringify(data, null, 4)}</textarea>

@@ -1,3 +1,11 @@
 {
-    "website_title": "Semantic Search API Demo for GEO.ca"
+    "website_header": "Semantic Search API Demo for GEO.ca",
+    "semantic_search_description": "Semantic search engines surpass simple keyword matching by interpreting the intent and context of queries. Unlike traditional searches, semantic search processes natural language and complex requests, recognizing synonyms and variations. We fine-tuned Sentence-Transformer models to enhance search relevance for geospatial metadata. The semantic search API is deployed using Amazon OpenSearch and Amazon SageMaker.",
+    "visit_github_call": "Visit our GitHub repositories:",
+    "keyword_search": "Keyword Search",
+    "semantic_search": "Semantic Search",
+    "semantic_search_new": "Semantic Search *New*",
+    "search_button": "Search",
+    "parse_error": "Parse error. This demo likely needs to be updated to the latest API.",
+    "search_load_message": "Fetching search results…"
 }
