@@ -3,6 +3,14 @@
 	import { version } from '$app/environment';
 	import RecordCard from '$lib/components/RecordCard.svelte';
 	import Footer from '$lib/components/Footer.svelte';
+	import * as m from '../paraglide/messages';
+
+	// Language configuration 
+	import { setLocale } from '../paraglide/runtime';
+	function switchLanguage(lang: 'en' | 'fr') {
+		setLocale(lang);
+		localStorage.setItem('locale', lang);
+	}
 
 	let query = $state('');
 
@@ -91,7 +99,7 @@
 </script>
 
 <svelte:head>
-	<title>Semantic Search API Demo for GEO.ca</title>
+	<title>{m.website_title()}</title>
 	<link
 		rel="stylesheet"
 		href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.2/css/all.min.css"

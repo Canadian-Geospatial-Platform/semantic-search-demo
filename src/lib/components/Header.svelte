@@ -18,6 +18,11 @@
 				</details>
 			</li> -->
 			<li>
+				<button onclick={toggleLanguage}>
+					{getLocale() === 'en' ? 'Français' : 'English'}
+				</button>
+			</li>
+			<li>
 				<details class="dropdown">
 					<summary> <i class="fa-brands fa-github"></i> GitHub </summary>
 					{#snippet githubRepo(repo)}
