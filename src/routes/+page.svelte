@@ -18,7 +18,7 @@
 	// Define a mapping of search modes to their corresponding API endpoints
 	type SearchEngine = 'keyword_search' | 'semantic_search' | 'semantic_search_new';
 	const searchApiMap: Record<SearchEngine, (query: string) => string> = {
-		keyword_search: (q) => `https://geocore.api.geo.ca/geo?keyword=${encodeURIComponent(q)}&keyword_only=true&lang=en&min=1&max=10&sort=popularity-desc`,
+		keyword_search: (q) => `https://geocore.api.geo.ca/geo?keyword=${encodeURIComponent(q)}&keyword_only=true&lang=${getLocale()}&min=1&max=10&sort=popularity-desc`,
 		semantic_search: (q) => `https://search-recherche.geocore.api.geo.ca/search-opensearch?method=SemanticSearch&q=${encodeURIComponent(q)}`,
 		semantic_search_new: (q) => `https://search-recherche.geocore.api.geo.ca/search-opensearch?method=SemanticSearch&q=${encodeURIComponent(q)}`
 	};
