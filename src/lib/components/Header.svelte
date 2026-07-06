@@ -1,3 +1,12 @@
+<script lang="ts">
+	import { getLocale, setLocale } from "$lib/paraglide/runtime.js";
+
+	
+	function switchLanguage(lang: 'en' | 'fr') {
+		setLocale(lang);
+		localStorage.setItem('locale', lang);
+	}
+</script>
 <header class="fluid-container">
 	<nav>
 		<ul id="cgp">
@@ -18,7 +27,7 @@
 				</details>
 			</li> -->
 			<li>
-				<button onclick={toggleLanguage}>
+				<button onclick={switchLanguage}>
 					{getLocale() === 'en' ? 'Français' : 'English'}
 				</button>
 			</li>
