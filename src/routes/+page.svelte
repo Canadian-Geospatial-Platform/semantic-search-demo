@@ -4,7 +4,7 @@
 	import RecordCard from '$lib/components/RecordCard.svelte';
 	import Footer from '$lib/components/Footer.svelte';
 	import { m } from "../paraglide/messages.js";
-	import { setLocale } from "../paraglide/runtime.js";
+	import { setLocale, getLocale } from "../paraglide/runtime.js";
 
 	// Language configuration 
 	function switchLanguage(lang: 'en' | 'fr') {
