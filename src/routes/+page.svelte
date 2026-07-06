@@ -3,10 +3,10 @@
 	import { version } from '$app/environment';
 	import RecordCard from '$lib/components/RecordCard.svelte';
 	import Footer from '$lib/components/Footer.svelte';
-	import * as m from '$lib/paraglide/messages.js';
+	import * as m from '../paraglide/messages.js';
 
 	// Language configuration 
-	import { setLocale } from '$lib/paraglide/runtime.js';
+	import { setLocale } from '../paraglide/runtime.js';
 	function switchLanguage(lang: 'en' | 'fr') {
 		setLocale(lang);
 		localStorage.setItem('locale', lang);
