@@ -13,15 +13,13 @@
     "search_load_message": "Récupération des résultats de recherche…",
     "results_text": "résultats",
     "records_retrieved_text": "1 - {data_count} de {total} dossiers",
-
-    "record_card": {
-        "keywords": "Mots-clés:",
-        "organization": "Organisation:",
-        "published": "Publié:",
-        "Relevancy": "Pertinence:",
-        "Popularity": "Popularité:",
-        "view_record": "Voir le dossier"
-    },
+    
+    "record_card_keywords": "Mots-clés:",
+    "record_card_organization": "Organisation:",
+    "record_card_published": "Publié:",
+    "record_card_relevancy": "Pertinence:",
+    "record_card_popularity": "Popularité:",
+    "record_card_view_record": "Voir le dossier",
 
     "footer_text": "GéoDécouverte, Centre canadien de cartographie et d’observation de la Terre, gouvernement du Canada, 2024–2025"
 }
