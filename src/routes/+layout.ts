@@ -24,11 +24,9 @@ export const load = async () => {
           }
         },
       });
-      posthog.onSurveysLoaded(() => {
-        posthog.getActiveMatchingSurveys((surveys) => {
+      posthog.getActiveMatchingSurveys((surveys) => {
           console.log(JSON.stringify(surveys, null, 2));
         });
-      });
     }
   }
   return;
