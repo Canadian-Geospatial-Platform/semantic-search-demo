@@ -68,11 +68,11 @@
 				<p><b>{m.record_card_published()}:</b> {record.published}</p>
 				<p>
 					{#if record.relevancy}
-						<b>{m.record_card_Relevancy()}:</b>
+						<b>{m.record_card_relevancy()}:</b>
 						{record.relevancy}{#if record.popularity};{/if}
 					{/if}
 					{#if record.popularity}
-						<b>{m.record_card_Popularity()}:</b> {record.popularity}
+						<b>{m.record_card_popularity()}:</b> {record.popularity}
 					{/if}
 				</p>
 			{/if}
