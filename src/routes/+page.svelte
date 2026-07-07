@@ -5,6 +5,7 @@
 	import Footer from '$lib/components/Footer.svelte';
 	import { m } from "$lib/paraglide/messages.js";
 	import { getLocale } from "$lib/paraglide/runtime.js";
+	import { get } from 'svelte/store';
 
 	let query = $state('');
 
@@ -51,6 +52,17 @@
 			return;
 		}
 		searchInitiated = true;
+		
+		posthog.capture('search_performed', {
+			query,
+		})
+
+		if getLocale() == 'en') {
+			posthog.displaySurvey('019f37a0-7c58-0000-abd2-2c3958e39793')
+		}
+		else {
+			posthog.displaySurvey('019f3cf9-c8ba-0000-5d0d-31211fca0025')
+		}
 
 		promiseLeft = fetchSearchResults(urlLeft);
 		promiseRight = fetchSearchResults(urlRight);
