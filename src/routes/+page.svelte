@@ -57,7 +57,7 @@
 			query,
 		})
 
-		if getLocale() == 'en') {
+		if (getLocale() == 'en') {
 			posthog.displaySurvey('019f37a0-7c58-0000-abd2-2c3958e39793')
 		}
 		else {
