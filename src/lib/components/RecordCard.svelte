@@ -58,21 +58,21 @@
 	<h3>{record.row_num}. <a href={thumbnailURL} target="_blank">{title}</a></h3>
 	<div class="small">
 		{#if keywords}
-			<p><b>{m.record_card.keywords()}:</b> {keywords}</p>
+			<p><b>{m.record_card_keywords()}:</b> {keywords}</p>
 		{/if}
 		{#if record.organisation}
-			<p><b>{m.record_card.organization()}:</b> {record.organisation}</p>
+			<p><b>{m.record_card_organization()}:</b> {record.organisation}</p>
 		{/if}
 		<div class="grid">
 			{#if record.published}
-				<p><b>{m.record_card.published()}:</b> {record.published}</p>
+				<p><b>{m.record_card_published()}:</b> {record.published}</p>
 				<p>
 					{#if record.relevancy}
-						<b>{m.record_card.Relevancy()}:</b>
+						<b>{m.record_card_Relevancy()}:</b>
 						{record.relevancy}{#if record.popularity};{/if}
 					{/if}
 					{#if record.popularity}
-						<b>{m.record_card.Popularity()}:</b> {record.popularity}
+						<b>{m.record_card_Popularity()}:</b> {record.popularity}
 					{/if}
 				</p>
 			{/if}
@@ -80,7 +80,7 @@
 	</div>
 	<p class="description">{@html description.replaceAll('\\n', '<br />')}</p>
 	<!-- <p><strong>Extent:</strong> {item.extent}</p> -->
-	<button onclick={() => window.open(thumbnailURL)}> {m.record_card.view_record()} &rarr; </button>
+	<button onclick={() => window.open(thumbnailURL)}> {m.record_card_view_record()} &rarr; </button>
 </article>
 
 <style>
