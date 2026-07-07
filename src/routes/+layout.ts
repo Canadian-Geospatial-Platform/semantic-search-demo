@@ -23,8 +23,10 @@ export const load = async () => {
             password: true
           }
         },
-        surveyLanguage: getLocale() === 'fr' ? 'fr-ca' : 'en'
       });
+      posthog.setPersonProperties({
+          $locale: 'fr-ca' // Sets the locale property for this visitor
+      })
     }
   }
   return;
