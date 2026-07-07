@@ -1,6 +1,9 @@
+<script lang="ts">
+	import { m } from "$lib/paraglide/messages.js";
+</script>
 <footer class="fluid-container">
 	<hr />
-	<p>GeoDiscovery, Canada Centre for Mapping and Earth Observation, Government of Canada, 2024–2025</p>
+	<p>{m.footer_text()}</p>
 </footer>
 
 <style>

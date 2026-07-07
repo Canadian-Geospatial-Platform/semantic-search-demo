@@ -1,5 +1,6 @@
 <script lang="ts">
 	import { getLocale } from "$lib/paraglide/runtime.js";
+	import { m } from "$lib/paraglide/messages.js";
 
 	interface Props {
 		record?: any;
@@ -14,10 +15,10 @@
 	let description = record[`description_${lang}`] ?? record.description;
 
 	let thumbnailURL =
-		'https://app.geo.ca/result/en/' +
+		'https://app.geo.ca/result/{lang}/' +
 		title.replace(/\W+/g, '-').toLowerCase() +
 		'?id=' + record.id +
-		'&lang=en';
+		'&lang={lang}';
 
 	async function showPlaceholder(event) {
 		event.target.src =
@@ -57,21 +58,21 @@
 	<h3>{record.row_num}. <a href={thumbnailURL} target="_blank">{title}</a></h3>
 	<div class="small">
 		{#if keywords}
-			<p><b>Keywords:</b> {keywords}</p>
+			<p><b>{m.record_card.keywords()}:</b> {keywords}</p>
 		{/if}
 		{#if record.organisation}
-			<p><b>Organization:</b> {record.organisation}</p>
+			<p><b>{m.record_card.organization()}:</b> {record.organisation}</p>
 		{/if}
 		<div class="grid">
 			{#if record.published}
-				<p><b>Published:</b> {record.published}</p>
+				<p><b>{m.record_card.published()}:</b> {record.published}</p>
 				<p>
 					{#if record.relevancy}
-						<b>Relevancy:</b>
+						<b>{m.record_card.Relevancy()}:</b>
 						{record.relevancy}{#if record.popularity};{/if}
 					{/if}
 					{#if record.popularity}
-						<b>Popularity:</b> {record.popularity}
+						<b>{m.record_card.Popularity()}:</b> {record.popularity}
 					{/if}
 				</p>
 			{/if}
@@ -79,7 +80,7 @@
 	</div>
 	<p class="description">{@html description.replaceAll('\\n', '<br />')}</p>
 	<!-- <p><strong>Extent:</strong> {item.extent}</p> -->
-	<button onclick={() => window.open(thumbnailURL)}> View record &rarr; </button>
+	<button onclick={() => window.open(thumbnailURL)}> {m.record_card.view_record()} &rarr; </button>
 </article>
 
 <style>

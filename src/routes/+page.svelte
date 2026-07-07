@@ -135,14 +135,14 @@
 	{/snippet}
 
 	{#snippet loadingResults()}
-		<p aria-busy="true">Fetching search results…</p>
+		<p aria-busy="true">{m.search_load_message()}</p>
 	{/snippet}
 
 	<section>
 		{#if searchInitiated}
 			<div class="grid">
 				<div>
-					<h2>{searchOptionLabels[leftMode]} results</h2>
+					<h2>{searchOptionLabels[leftMode]} {m.results_text()}</h2>
 					<!-- <p>Sorted by relevancy</p> -->
 					{@render showSearchURL(urlLeft)}
 					{#await promiseLeft}
@@ -150,7 +150,7 @@
 					{:then data}
 						{#if leftMode === 'keyword_search'}
 							{#if data.Count > 0}
-								<p class="center">1 – {data.Count} of {data.Items[0].total} records</p>
+								<p class="center">{m.records_retrieved_text({ data_count: data.Count, total: data.Items[0].total })}</p>
 								<div class="search-results">
 									{#each data.Items as record (record.row_num)}
 										<RecordCard {record} />
@@ -175,18 +175,18 @@
 								<p>No result</p>
 							{:else}
 								<p class="error">{m.parse_error()}</p>
-								<p>Returned results in JSON format:</p>
+								<p>{m.parse_error_json_output()}</p>
 								<p class="error">{data.message}</p>
 								<textarea rows="50" spellcheck="false">{JSON.stringify(data, null, 4)}</textarea>
 							{/if}
 						{/if}
 					{:catch error}
-						<p class="error">Error: {error}</p>
+						<p class="error">{m.error_label()} {error}</p>
 					{/await}
 				</div>
 
 				<div>
-					<h2>{searchOptionLabels[rightMode]} results</h2>
+					<h2>{searchOptionLabels[rightMode]} {m.results_text()}</h2>
 					<!-- <p>Sorted by popularity (relevancy not available)</p> -->
 					{@render showSearchURL(urlRight)}
 					{#await promiseRight}
@@ -194,7 +194,7 @@
 					{:then data}
 						{#if rightMode === 'keyword_search'}
 							{#if data.Count > 0}
-								<p class="center">1 – {data.Count} of {data.Items[0].total} records</p>
+								<p class="center">{m.records_retrieved_text({ data_count: data.Count, total: data.Items[0].total })}</p>
 								<div class="search-results">
 									{#each data.Items as record (record.row_num)}
 										<RecordCard {record} />
@@ -219,13 +219,13 @@
 								<p>No result</p>
 							{:else}
 								<p class="error">{m.parse_error()}</p>
-								<p>Returned results in JSON format:</p>
+								<p>{m.parse_error_json_output()}</p>
 								<p class="error">{data.message}</p>
 								<textarea rows="50" spellcheck="false">{JSON.stringify(data, null, 4)}</textarea>
 							{/if}
 						{/if}
 					{:catch error}
-						<p class="error">Error: {error}</p>
+						<p class="error">{m.error_label()} {error}</p>
 					{/await}
 				</div>
 			</div>
