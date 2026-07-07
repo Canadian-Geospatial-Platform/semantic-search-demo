@@ -15,10 +15,10 @@
 	let description = record[`description_${lang}`] ?? record.description;
 
 	let thumbnailURL =
-		'https://app.geo.ca/result/{lang}/' +
+		'https://app.geo.ca/result/' + lang + '/' +
 		title.replace(/\W+/g, '-').toLowerCase() +
 		'?id=' + record.id +
-		'&lang={lang}';
+		'&lang=' + lang;
 
 	async function showPlaceholder(event) {
 		event.target.src =
