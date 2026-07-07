@@ -30,4 +30,3 @@ export const load = async () => {
 };
 
 export const _frontmatter = {}
-export default posthog
