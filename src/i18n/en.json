@@ -14,14 +14,12 @@
     "results_text": "results",
     "records_retrieved_text": "1 - {data_count} of {total} records",
 
-    "record_card": {
-        "keywords": "Keywords:",
-        "organization": "Organization:",
-        "published": "Published:",
-        "Relevancy": "Relevancy:",
-        "Popularity": "Popularity:",
-        "view_record": "View record"
-    },
+    "record_card_keywords": "Keywords:",
+    "record_card_organization": "Organization:",
+    "record_card_published": "Published:",
+    "record_card_relevancy": "Relevancy:",
+    "record_card_popularity": "Popularity:",
+    "record_card_view_record": "View record",
 
     "footer_text": "GeoDiscovery, Canada Centre for Mapping and Earth Observation, Government of Canada, 2024–2025"
 
