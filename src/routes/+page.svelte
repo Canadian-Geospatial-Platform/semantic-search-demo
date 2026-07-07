@@ -6,6 +6,7 @@
 	import { m } from "$lib/paraglide/messages.js";
 	import { getLocale } from "$lib/paraglide/runtime.js";
 	import { get } from 'svelte/store';
+	import posthog from './+layout.ts';
 
 	let query = $state('');
 

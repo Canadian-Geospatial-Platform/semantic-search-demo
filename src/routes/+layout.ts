@@ -7,7 +7,6 @@ import "posthog-js/dist/surveys";
 import "posthog-js/dist/tracing-headers";
 import "posthog-js/dist/web-vitals";
 import posthog from 'posthog-js';
-import { getLocale } from "$lib/paraglide/runtime.js";
 
 import { browser } from '$app/environment';
 
@@ -31,3 +30,4 @@ export const load = async () => {
 };
 
 export const _frontmatter = {}
+export default posthog
