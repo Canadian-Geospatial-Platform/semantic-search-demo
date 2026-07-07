@@ -24,9 +24,6 @@ export const load = async () => {
           }
         },
       });
-      posthog.getActiveMatchingSurveys((surveys) => {
-          console.log(JSON.stringify(surveys, null, 2));
-        });
     }
   }
   return;
