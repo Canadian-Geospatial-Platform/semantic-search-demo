@@ -23,10 +23,9 @@ export const load = async () => {
             password: true
           }
         },
+        override_display_language: getLocale() === 'fr' ? 'fr-CA' : 'en'
       });
-      posthog.set_config({
-          override_display_language: "fr-ca"
-      });
+      console.log(posthog.config);
     }
   }
   return;
