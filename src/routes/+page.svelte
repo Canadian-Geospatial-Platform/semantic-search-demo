@@ -56,6 +56,10 @@
 		
 		posthog.capture('search_performed', {
 			query,
+			locale: getLocale(),
+			leftMode,
+			rightMode,
+			timestamp: new Date().toISOString(),
 		})
 
 		promiseLeft = fetchSearchResults(urlLeft);
