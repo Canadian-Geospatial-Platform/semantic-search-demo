@@ -23,9 +23,12 @@ export const load = async () => {
             password: true
           }
         },
-        override_display_language: getLocale() === 'fr' ? 'fr-CA' : 'en'
       });
-      console.log(posthog.config);
+      posthog.onSurveysLoaded(() => {
+        posthog.getActiveMatchingSurveys((surveys) => {
+          console.log(JSON.stringify(surveys, null, 2));
+        });
+      });
     }
   }
   return;
