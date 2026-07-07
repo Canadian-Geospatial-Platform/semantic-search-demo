@@ -1,4 +1,5 @@
 {
+    "header_text": "Canadian Geospatial Platform",
     "website_header": "Semantic Search API Demo for GEO.ca",
     "semantic_search_description": "Semantic search engines surpass simple keyword matching by interpreting the intent and context of queries. Unlike traditional searches, semantic search processes natural language and complex requests, recognizing synonyms and variations. We fine-tuned Sentence-Transformer models to enhance search relevance for geospatial metadata. The semantic search API is deployed using Amazon OpenSearch and Amazon SageMaker.",
     "visit_github_call": "Visit our GitHub repositories:",
@@ -6,6 +7,23 @@
     "semantic_search": "Semantic Search",
     "semantic_search_new": "Semantic Search *New*",
     "search_button": "Search",
+    "error_label": "Error:",
     "parse_error": "Parse error. This demo likely needs to be updated to the latest API.",
-    "search_load_message": "Fetching search results…"
+    "parse_error_json_output": "Returned results in JSON format:",
+    "search_load_message": "Fetching search results…",
+    "results_text": "results",
+    "records_retrieved_text": "1 - {data_count} of {total} records",
+
+    "record_card": {
+        "keywords": "Keywords:",
+        "organization": "Organization:",
+        "published": "Published:",
+        "Relevancy": "Relevancy:",
+        "Popularity": "Popularity:",
+        "view_record": "View record"
+    },
+
+    "footer_text": "GeoDiscovery, Canada Centre for Mapping and Earth Observation, Government of Canada, 2024–2025"
+
+
 }

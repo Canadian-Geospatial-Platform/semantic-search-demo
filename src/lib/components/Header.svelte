@@ -1,5 +1,6 @@
 <script lang="ts">
 	import { getLocale, setLocale } from "$lib/paraglide/runtime.js";
+	import { m } from "$lib/paraglide/messages.js";
 	
 	function toggleLanguage() {
 		const currentLocale = getLocale();
@@ -13,7 +14,7 @@
 		<ul id="cgp">
 			<li>
 				<img src="favicon.png" alt="CGP logo" />
-				Canadian Geospatial Platform
+				{m.header_text()}
 			</li>
 		</ul>
 		<ul>

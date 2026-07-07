@@ -1,4 +1,5 @@
 {
+    "header_text": "Plateforme Géospatiale Canadienne",
     "website_header": "Démonstration de l’API de recherche sémantique pour GEO.ca",
     "semantic_search_description": "Les moteurs de recherche sémantiques surpassent la simple correspondance de mots-clés en interprétant l’intention et le contexte des requêtes. Contrairement aux recherches traditionnelles, la recherche sémantique traite le langage naturel et les requêtes complexes, en reconnaissant les synonymes et les variations. Nous avons affiné les modèles de transformateurs de phrases pour améliorer la pertinence de la recherche de métadonnées géospatiales. L’API de recherche sémantique est déployée à l’aide d’Amazon OpenSearch et d’Amazon SageMaker.",
     "visit_github_call": "Visitez nos dépôts GitHub:",
@@ -6,7 +7,21 @@
     "semantic_search": "Recherche Sémantique",
     "semantic_search_new": "Recherche Sémantique *Nouveau*",
     "search_button": "Rechercher",
+    "error_label": "Erreur:",
     "parse_error": "Erreur d’analyse. Cette démonstration doit probablement être mise à jour vers la dernière API.",
-    "search_load_message": "Récupération des résultats de recherche…"
+    "parse_error_json_output": "Résultats renvoyés au format JSON:",
+    "search_load_message": "Récupération des résultats de recherche…",
+    "results_text": "résultats",
+    "records_retrieved_text": "1 - {data_count} de {total} dossiers",
 
+    "record_card": {
+        "keywords": "Mots-clés:",
+        "organization": "Organisation:",
+        "published": "Publié:",
+        "Relevancy": "Pertinence:",
+        "Popularity": "Popularité:",
+        "view_record": "Voir le dossier"
+    },
+
+    "footer_text": "GéoDécouverte, Centre canadien de cartographie et d’observation de la Terre, gouvernement du Canada, 2024–2025"
 }
