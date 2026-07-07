@@ -164,7 +164,7 @@
 							{/if}
 						{:else}
 							{#if data.response && data.response.total_hits > 0}
-								<p class="center">1 – {data.response.returned_hits} of {data.response.total_hits} records</p>
+								<p class="center">{m.records_retrieved_text({ data_count: data.response.returned_hits, total: data.response.total_hits })}</p>
 								<div class="search-results">
 									{#each data.response.items as item (item.features[0].properties.row_num)}
 										{@const record = item.features[0].properties}
@@ -208,7 +208,7 @@
 							{/if}
 						{:else}
 							{#if data.response && data.response.total_hits > 0}
-								<p class="center">1 – {data.response.returned_hits} of {data.response.total_hits} records</p>
+								<p class="center">{m.records_retrieved_text({ data_count: data.response.returned_hits, total: data.response.total_hits })}</p>
 								<div class="search-results">
 									{#each data.response.items as item (item.features[0].properties.row_num)}
 										{@const record = item.features[0].properties}

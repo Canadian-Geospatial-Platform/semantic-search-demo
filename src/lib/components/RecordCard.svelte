@@ -58,21 +58,21 @@
 	<h3>{record.row_num}. <a href={thumbnailURL} target="_blank">{title}</a></h3>
 	<div class="small">
 		{#if keywords}
-			<p><b>{m.record_card_keywords()}:</b> {keywords}</p>
+			<p><b>{m.record_card_keywords()}</b> {keywords}</p>
 		{/if}
 		{#if record.organisation}
-			<p><b>{m.record_card_organization()}:</b> {record.organisation}</p>
+			<p><b>{m.record_card_organization()}</b> {record.organisation}</p>
 		{/if}
 		<div class="grid">
 			{#if record.published}
-				<p><b>{m.record_card_published()}:</b> {record.published}</p>
+				<p><b>{m.record_card_published()}</b> {record.published}</p>
 				<p>
 					{#if record.relevancy}
-						<b>{m.record_card_relevancy()}:</b>
+						<b>{m.record_card_relevancy()}</b>
 						{record.relevancy}{#if record.popularity};{/if}
 					{/if}
 					{#if record.popularity}
-						<b>{m.record_card_popularity()}:</b> {record.popularity}
+						<b>{m.record_card_popularity()}</b> {record.popularity}
 					{/if}
 				</p>
 			{/if}
