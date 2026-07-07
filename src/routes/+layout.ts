@@ -23,7 +23,7 @@ export const load = async () => {
             password: true
           }
         },
-        overrideDisplayLanguage: getLocale() === 'fr' ? 'fr-ca' : 'en'
+        surveyLanguage: getLocale() === 'fr' ? 'fr-ca' : 'en'
       });
     }
   }
