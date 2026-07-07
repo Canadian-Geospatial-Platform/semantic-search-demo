@@ -24,9 +24,9 @@ export const load = async () => {
           }
         },
       });
-      posthog.setPersonProperties({
-          $locale: 'fr-ca' // Sets the locale property for this visitor
-      })
+      posthog.set_config({
+          override_display_language: "fr-ca"
+      });
     }
   }
   return;
