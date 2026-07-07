@@ -24,6 +24,7 @@ export const load = async () => {
           }
         },
       });
+      posthog.reset()
     }
   }
   return;
