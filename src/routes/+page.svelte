@@ -146,10 +146,7 @@
 				bind:value={query}
 				oninput={clearSearchResults}
 			/>
-			<input type="submit" value={m.search_button()} id="search-submit" 
-				class:lang-en={getLocale() === "en"}
-				class:lang-fr={getLocale() === "fr"}
-			/>
+			<input type="submit" value={m.search_button()} id="search-submit" />
 		</form>
 	</section>
 
