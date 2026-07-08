@@ -54,6 +54,10 @@
 		}
 		searchInitiated = true;
 		
+		posthog.register({
+			search_query: query
+		})
+		
 		posthog.capture('search_performed', {
 			query,
 			locale: getLocale(),
