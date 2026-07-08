@@ -122,7 +122,7 @@
 	</section>
 
 	<section class="container">
-		<form role="comparison" class="side-by-side">
+		<form class="side-by-side">
 			<select bind:value={leftMode} onchange={clearSearchResults} class="select-search-mode">
 				{#each searchOptions as option}
 					<option value={option.value}>
