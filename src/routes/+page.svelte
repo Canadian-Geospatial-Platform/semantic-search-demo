@@ -74,14 +74,6 @@
 		promiseLeft = fetchSearchResults(urlLeft);
 		promiseRight = fetchSearchResults(urlRight);
 		
-		// setTimeout(() => {
-		// 	if (getLocale() == 'en') {
-		// 		posthog.displaySurvey('019f37a0-7c58-0000-abd2-2c3958e39793')
-		// 	}
-		// 	else {
-		// 		posthog.displaySurvey('019f3cf9-c8ba-0000-5d0d-31211fca0025')
-		// 	}
-		// }, 5000)
 	}
 
 	function clearSearchResults() {
@@ -93,7 +85,7 @@
 </script>
 
 <svelte:head>
-	<title>Semantic Search API Demo for GEO.ca</title>
+	<title>{m.website_header()}</title>
 	<link
 		rel="stylesheet"
 		href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.2/css/all.min.css"
