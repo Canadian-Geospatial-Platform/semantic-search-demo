@@ -48,7 +48,8 @@
 	},
 	"type": "module",
 	"dependencies": {
+		"@inlang/paraglide-js": "^2.20.2",
 		"@picocss/pico": "^2.0.6",
-		"posthog-js": "^1.139.5"
+		"posthog-js": "^1.398.2"
 	}
 }
