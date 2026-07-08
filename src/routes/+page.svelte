@@ -80,6 +80,8 @@
 		promiseLeft = Promise.resolve({});
 		promiseRight = Promise.resolve({});
 		searchInitiated = false;
+
+      	posthog.reset()
 	}
 	
 </script>
