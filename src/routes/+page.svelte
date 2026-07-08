@@ -53,14 +53,19 @@
 			return;
 		}
 		searchInitiated = true;
+
+		models_invoked = [leftMode, rightMode];
 		
 		posthog.register({
-			search_query: query
+			search_query: query,
+			locale: getLocale(),
+			models: models_invoked.sort()
 		})
 		
 		posthog.capture('search_performed', {
-			query,
+			search_query: query,
 			locale: getLocale(),
+			models: models_invoked.sort(),
 			leftMode,
 			rightMode,
 			timestamp: new Date().toISOString(),
