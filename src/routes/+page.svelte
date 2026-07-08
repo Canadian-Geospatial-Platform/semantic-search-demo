@@ -54,7 +54,7 @@
 		}
 		searchInitiated = true;
 
-		models_invoked = [leftMode, rightMode];
+		const models_invoked = [leftMode, rightMode];
 		
 		posthog.register({
 			search_query: query,
