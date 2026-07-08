@@ -13,6 +13,7 @@
 	let title = record[`title_${lang}`] ?? record.title;
 	let keywords = record[`keywords_${lang}`] ?? record.keywords;
 	let description = record[`description_${lang}`] ?? record.description;
+	let organization = record.organisation?.[lang] ?? record.organisation;
 
 	let thumbnailURL =
 		'https://app.geo.ca/result/' + lang + '/' +
@@ -61,7 +62,7 @@
 			<p><b>{m.record_card_keywords()}</b> {keywords}</p>
 		{/if}
 		{#if record.organisation}
-			<p><b>{m.record_card_organization()}</b> {record.organisation}</p>
+			<p><b>{m.record_card_organization()}</b> {organization}</p>
 		{/if}
 		<div class="grid">
 			{#if record.published}
