@@ -132,7 +132,7 @@
 					</option>
 				{/each}
 			</select>
-			<em style="position:relative; top:-1px;">VS</em>
+			<em style="position:relative; top:-1px;">|</em>
 			<select bind:value={rightMode} onchange={clearSearchResults} class="select-search-mode">
 				{#each searchOptions as option}
 					<option value={option.value}> {option.label} </option>
