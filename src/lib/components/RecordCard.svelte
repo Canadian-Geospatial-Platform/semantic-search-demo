@@ -10,10 +10,10 @@
 
 	let lang = getLocale();
 
-	let title = record[`title_${lang}`] ?? record.title;
-	let keywords = record[`keywords_${lang}`] ?? record.keywords;
-	let description = record[`description_${lang}`] ?? record.description;
-	let organization = record.organisation?.[lang] ?? record.organisation;
+	let title = record[`title_${lang}`] ?? record.title ?? "N/A";
+	let keywords = record[`keywords_${lang}`] ?? record.keywords ?? "N/A";
+	let description = record[`description_${lang}`] ?? record.description ?? "N/A";
+	let organization = record.organisation?.[lang] ?? record.organisation ?? "N/A";
 
 	let thumbnailURL =
 		'https://app.geo.ca/result/' + lang + '/' +
